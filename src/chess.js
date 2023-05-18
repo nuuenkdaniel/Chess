@@ -1,1 +1,3 @@
-class chess 
+class chess{
+    constructor()
+}
