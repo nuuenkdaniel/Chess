@@ -9,7 +9,7 @@ class Piece{
     getColor(){
         return this.color;
     }
-    moveInfo(){
+    getMoveInfo(){
         throw new error("Method 'moveInfo()' must be implemented");
     }
 }

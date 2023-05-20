@@ -1,15 +1,17 @@
 class Tile{
-    constructor(tileCoord){
-        if(constructor == Tile){
-            throw new Error("Abstract classes can't be instantiated.")
-        }
+    constructor(tileCoord, piece = null){
         this.tileCoord = tileCoord;
+        this.tileOccupied = false;
+        this.piece = piece;
     }
 
     isTileOccupied(){
-        throw new Error("Method 'isTileOccupied()' must be implemented.");
+        return this.tileOccupied;
     }
     getPiece(){
-        throw new Error("Method 'getPiece()' must be implemented.");
+        return this.piece;
+    }
+    placePiece(piece){
+        this.piece = piece;
     }
 }
