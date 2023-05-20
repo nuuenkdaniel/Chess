@@ -1,9 +1,10 @@
 class Pawn extends Piece{
-    constructor(color){
+    constructor(color, firstMove = true){
         super(color);
+        this.firstMove = firstMove;
     }
 
-    moveInfo(){
-        console.log("starts with 2 forward then 1 forward after first move");
+    getMoveInfo(){
+        console.log("Moves forward 2 if first move and 1 if after first move unless something is blocking it");
     }
 }
