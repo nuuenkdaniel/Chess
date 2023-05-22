@@ -18,7 +18,7 @@ function tileSetUp(){
 
 function defaultPieceSetUp(){
     //black pieces set up
-    let color = "A52A2A";
+    let color = "black";
     for(let i = 0; i < boardLength; i++){
         tile[1][i] = new Pawn(color, true);
     }
@@ -32,7 +32,7 @@ function defaultPieceSetUp(){
     tile[0][7] = new Rooke(color);
 
     //white pieces set up
-    color = "FFFFFF";
+    color = "white";
     for(let i = 0; i < boardLength; i++){
         tile[6][i] = new Pawn(color, true);
     }
@@ -51,33 +51,68 @@ function possibleMoves(etile){
     switch(this.tile.getPiece()){
         case Pawn:
             possibileTiles[0] = [-1,-1];
-            if(!tile[etile.getTileY()-1][etile.getTileX()].isTileOccupied()){
-                possibleTiles[0] = [etile.getTileY()-1,etile.getTileX()];
-                if(etile.getPiece().isFirstMove()){
-                    if(!tile[etile.getTileY()-2][etile.getTileX()].isTileOccupied()){
-                        possibleTiles[1] = [etile.getTileY()-2,etile.getTileX()];
+            if(etile.getPiece().getColor() == "white"){
+                if((!tile[etile.getTileY()-1][etile.getTileX()].isTileOccupied()) && (etile.getTileY()-1 > -1)){
+                    possibleTiles[0] = [etile.getTileY()-1,etile.getTileX()];
+                    if(etile.getPiece().isFirstMove()){
+                        if((!tile[etile.getTileY()-2][etile.getTileX()].isTileOccupied()) && (etile.getTileY()-2 > -1)){
+                            possibleTiles[1] = [etile.getTileY()-2,etile.getTileX()];
+                        }
+                    }
+                }
+            }
+            else{
+                if((!tile[etile.getTileY()+1][etile.getTileX()].isTileOccupied()) && (etile.getTileY()+1 < boardWidth)){
+                    possibleTiles[0] = [etile.getTileY()+1,etile.getTileX()];
+                    if(etile.getPiece().isFirstMove()){
+                        if((!tile[etile.getTileY()+2][etile.getTileX()].isTileOccupied()) && (etile.getTileY()+2 < boardWidth)){
+                            possibleTiles[1] = [etile.getTileY()+2,etile.getTileX()];
+                        }
                     }
                 }
             }
             return possibleTiles;
-
         case King:
             let i = 0;
             possibleTiles[0] = [-1,-1];
-            if((!tile[etile.getTileY()-1][etile.getTileX()].isTileOccupied()) && (etile.getTileY()-1 > tileRow-1)){
+            //Can king move up
+            if(((!tile[etile.getTileY()-1][etile.getTileX()].isTileOccupied()) || !(tile[etile.getTileY()-1][etile.getTileX()].getPiece().getColor() == etile.getPiece().getColor())) && (etile.getTileY()-1 > -1)){
                 possibleTiles[i] = [etile.getTileY()-1,etile.getTileX()];
                 i++;
             }
-            if(!tile[etile.getTileY()-1][etile.getTileX()+1].isTileOccupied()){
+            //Can king move top right
+            if((!tile[etile.getTileY()-1][etile.getTileX()+1].isTileOccupied()) && (etile.getTileY()-1 > -1) && (etile.getTileX()+1 < boardLength)){
                 possibleTiles[i] = [etile.getTileY()-1,etile.getTileX()+1];
                 i++;
             }
-            if(!tile[etile.getTileY()][etile.getTileX()+1].isTileOccupied()){
+            //Can king move right
+            if((!tile[etile.getTileY()][etile.getTileX()+1].isTileOccupied()) && (etile.getTileX()+1 < boardLength)){
                 possibleTiles[i] = [etile.getTileY(),etile.getTileX()];
                 i++;
             }
-            if(!tile[etile.getTileY()]){
-                
+            //Can king move bottom right
+            if((!tile[etile.getTileY()+1][etile.getTileX()+1].isTileOccupied()) && (etile.getTileY()+1 < boardWidth) && (etile.getTileX+1 < boardLength)){
+                possibleTiles[i] = [etile.getTileY()+1,etile.getTileX()+1];
+                i++;
+            }
+            //Can king move down
+            if((!tile[etile.getTileY()+1][etile.getTileX()].isTileOccupied()) && (etile.getTileY()+1 < boardWidth)){
+                possibleTiles[i] = [etile.getTileY()+1,etile.getTileX()];
+                i++;
+            }
+            //Can king move bottom left
+            if((!tile[etile.getTileY()+1][etile.getTileX()-1].isTileOccupied()) && (etile.getTileY()+1 < boardWidth) && (etile.getTileX()-1 > -1)){
+                possibleTiles[i] = [etile.getTileY()+1,etile.getTileX()-1];
+                i++;
+            }
+            //Can king move left
+            if((!tile[etile.getTileY()][etile.getTileX()-1].isTileOccupied()) && (etile.getTileX()-1 > -1)){
+                possibleTiles[i] = [etile.getTileY(),etile.getTileX()-1];
+                i++;
+            }
+            //Can king move top left
+            if((!tile[etile.getTileY()-1][etile.getX()-1].isTileOccupied()) && (etile.getTileY()-1 > -1) && (etile.getTileX()-1 > -1)){
+                possibleTiles[i] = [etile.getTileY()-1,etile,getX()-1];
             }
             return possibleTiles;
         case Bishop:
