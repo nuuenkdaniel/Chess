@@ -50,21 +50,38 @@ function possibleMoves(etile){
     let possibleTiles = [];
     switch(this.tile.getPiece()){
         case Pawn:
-            if(!tile[etile.getTileY()-1,etile.getTileX()].isTileOccupied()){
+            possibileTiles[0] = [-1,-1];
+            if(!tile[etile.getTileY()-1][etile.getTileX()].isTileOccupied()){
                 possibleTiles[0] = [etile.getTileY()-1,etile.getTileX()];
                 if(etile.getPiece().isFirstMove()){
-                    if(!tile[etile.getTileY()-2,etile.getTileX()].isTileOccupied()){
+                    if(!tile[etile.getTileY()-2][etile.getTileX()].isTileOccupied()){
                         possibleTiles[1] = [etile.getTileY()-2,etile.getTileX()];
                     }
                 }
-                return possibleTiles;
             }
-            else{
-                possibileTiles[0] = [-1,-1];
-                return possibleTiles;
-            }
-        case Knight:
+            return possibleTiles;
 
+        case King:
+            let i = 0;
+            possibleTiles[0] = [-1,-1];
+            if((!tile[etile.getTileY()-1][etile.getTileX()].isTileOccupied()) && (etile.getTileY()-1 > tileRow-1)){
+                possibleTiles[i] = [etile.getTileY()-1,etile.getTileX()];
+                i++;
+            }
+            if(!tile[etile.getTileY()-1][etile.getTileX()+1].isTileOccupied()){
+                possibleTiles[i] = [etile.getTileY()-1,etile.getTileX()+1];
+                i++;
+            }
+            if(!tile[etile.getTileY()][etile.getTileX()+1].isTileOccupied()){
+                possibleTiles[i] = [etile.getTileY(),etile.getTileX()];
+                i++;
+            }
+            if(!tile[etile.getTileY()]){
+                
+            }
+            return possibleTiles;
+        case Bishop:
+            return possibleTiles;
     }
 }
 
