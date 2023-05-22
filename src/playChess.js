@@ -46,17 +46,25 @@ function defaultPieceSetUp(){
     tile[7][7] = new Rooke(color);
 }
 
-function possibleMoves(tile){
+function possibleMoves(etile){
     let possibleTiles = [];
-    switch(tile.getPiece()){
+    switch(this.tile.getPiece()){
         case Pawn:
-            let tiles = tile.getPiece().isFirstMove()? 2 : 1;
-            for(let i = 1; i <= tiles; i++){
-                if(tile[tile.tileY()-i, tile.tileX()].isTileOccupied()){
-                    break;
+            if(!tile[etile.getTileY()-1,etile.getTileX()].isTileOccupied()){
+                possibleTiles[0] = [etile.getTileY()-1,etile.getTileX()];
+                if(etile.getPiece().isFirstMove()){
+                    if(!tile[etile.getTileY()-2,etile.getTileX()].isTileOccupied()){
+                        possibleTiles[1] = [etile.getTileY()-2,etile.getTileX()];
+                    }
                 }
-                possibleTiles = tile[tile.tileY()-i, tile.tileX()].tile
+                return possibleTiles;
             }
+            else{
+                possibileTiles[0] = [-1,-1];
+                return possibleTiles;
+            }
+        case Knight:
+
     }
 }
 
