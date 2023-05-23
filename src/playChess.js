@@ -48,6 +48,7 @@ function defaultPieceSetUp(){
 
 function possibleMoves(etile){
     let possibleTiles = [];
+    possibleTiles[0] = [-1,-1];
     switch(this.tile.getPiece()){
         case Pawn:
             possibileTiles[0] = [-1,-1];
@@ -72,55 +73,68 @@ function possibleMoves(etile){
                 }
             }
             return possibleTiles;
+        //come back to king later
         case King:
-            let i = 0;
-            possibleTiles[0] = [-1,-1];
+            let arrKingIncr
             //Can king move up
             if(((!tile[etile.getTileY()-1][etile.getTileX()].isTileOccupied()) || !(tile[etile.getTileY()-1][etile.getTileX()].getPiece().getColor() == etile.getPiece().getColor())) && (etile.getTileY()-1 > -1)){
-                possibleTiles[i] = [etile.getTileY()-1,etile.getTileX()];
-                i++;
+                possibleTiles[arrKingIncr] = [etile.getTileY()-1,etile.getTileX()];
+                arrKingIncr++;
             }
             //Can king move top right
             if((!tile[etile.getTileY()-1][etile.getTileX()+1].isTileOccupied()) && (etile.getTileY()-1 > -1) && (etile.getTileX()+1 < boardLength)){
-                possibleTiles[i] = [etile.getTileY()-1,etile.getTileX()+1];
-                i++;
+                possibleTiles[arrKingIncr] = [etile.getTileY()-1,etile.getTileX()+1];
+                arrKingIncr++;
             }
             //Can king move right
             if((!tile[etile.getTileY()][etile.getTileX()+1].isTileOccupied()) && (etile.getTileX()+1 < boardLength)){
-                possibleTiles[i] = [etile.getTileY(),etile.getTileX()];
-                i++;
+                possibleTiles[arrKingIncr] = [etile.getTileY(),etile.getTileX()];
+                arrKingIncr++;
             }
             //Can king move bottom right
             if((!tile[etile.getTileY()+1][etile.getTileX()+1].isTileOccupied()) && (etile.getTileY()+1 < boardWidth) && (etile.getTileX+1 < boardLength)){
-                possibleTiles[i] = [etile.getTileY()+1,etile.getTileX()+1];
-                i++;
+                possibleTiles[arrKingIncr] = [etile.getTileY()+1,etile.getTileX()+1];
+                arrKingIncr++;
             }
             //Can king move down
             if((!tile[etile.getTileY()+1][etile.getTileX()].isTileOccupied()) && (etile.getTileY()+1 < boardWidth)){
-                possibleTiles[i] = [etile.getTileY()+1,etile.getTileX()];
-                i++;
+                possibleTiles[arrKingIncr] = [etile.getTileY()+1,etile.getTileX()];
+                arrKingIncr++;
             }
             //Can king move bottom left
             if((!tile[etile.getTileY()+1][etile.getTileX()-1].isTileOccupied()) && (etile.getTileY()+1 < boardWidth) && (etile.getTileX()-1 > -1)){
-                possibleTiles[i] = [etile.getTileY()+1,etile.getTileX()-1];
-                i++;
+                possibleTiles[arrKingIncr] = [etile.getTileY()+1,etile.getTileX()-1];
+                arrKingIncr++;
             }
             //Can king move left
             if((!tile[etile.getTileY()][etile.getTileX()-1].isTileOccupied()) && (etile.getTileX()-1 > -1)){
-                possibleTiles[i] = [etile.getTileY(),etile.getTileX()-1];
-                i++;
+                possibleTiles[arrKingIncr] = [etile.getTileY(),etile.getTileX()-1];
+                arrKingIncr++;
             }
             //Can king move top left
             if((!tile[etile.getTileY()-1][etile.getX()-1].isTileOccupied()) && (etile.getTileY()-1 > -1) && (etile.getTileX()-1 > -1)){
-                possibleTiles[i] = [etile.getTileY()-1,etile,getX()-1];
+                possibleTiles[arrKingIncr] = [etile.getTileY()-1,etile,getX()-1];
             }
             return possibleTiles;
         case Bishop:
+            //Can bishop move top left
+            let bishopRowIndex = etile.getTileY()-1;
+            let bishopColumnIndex = etile.getTileX()+1;
+            let arrBishopIncr = 0;
+            while((bishopRowIndex > -1) && (bishipColumnIndex < boardLength)){
+                //need to change! piece needs to stop once it eats a piece
+                if(!(tile[bishopRowIndex][bishopColumnIndex].isTileOccupied()) || (tile[bishopRowIndex][bishopColumnIndex].getPiece().getColor()!=etile.getPiece().getColor())){
+                    possibleTiles[arrBishopIncr] = []
+                }
+            }
             return possibleTiles;
     }
 }
 
 function move(x1,y1,x2,y2){
+    if(tile[y2][x2].isTileOccupied()){
+        tile[y2][x2].rmPiece();
+    }
     tile[y2][x2] = tile[y1][x1].getPiece();
     tile[y1][x1].rmPiece();
 }
