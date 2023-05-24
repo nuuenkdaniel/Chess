@@ -8,7 +8,7 @@ function tileSetUp(){
     for(let i = 0; i < boardWidth; i++){
         tiles[i] = [];
         for(let j = 0; j < boardLength; j++){
-            tiles[i][j] = new Tile(j,i,color);
+            tiles[i][j] = new Tile(i,j,color);
             let tempColor = color;
             color = otherColor;
             otherColor = tempColor;
@@ -63,6 +63,6 @@ function movePiece(x1,y1,x2,y2){
 tileSetUp();
 defaultPieceSetUp();
 possibleMoves = tiles[0][2].getPiece().getMoveInfo();
-for(let i = 0; i < possibleMoves.length; i++){
-    console.log("("+possibleMoves[i][0]+","+possibleMoves[i][1]+")");
+for(let i = 0; i < boardLength; i++){
+    console.log(tiles[i][0].getTileX());
 }
