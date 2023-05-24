@@ -1,6 +1,6 @@
 class King extends Piece{
-    constructor(color, tileY, tileX, boardWidth, boardLength){
-        super(color, tileY, tileX, boardWidth, boardLength);
+    constructor(color, tileX, tileY, boardWidth, boardLength){
+        super(color, tileX, tileY, boardWidth, boardLength);
     }
 
     getMoveInfo(){
@@ -10,7 +10,7 @@ class King extends Piece{
         let moveX = 0;
         possibleMoves[0] = [0,0];
         function update(){
-            possibleMoves[possibleMovesIndex] = [moveY,moveX]; 
+            possibleMoves[possibleMovesIndex] = [moveX,moveY]; 
             possibleMovesIndex++;
         }
 

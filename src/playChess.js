@@ -5,9 +5,9 @@ let boardWidth = 8;
 function tileSetUp(){
     let color = "FFFFFF";
     let otherColor = "A52A2A";
-    for(let i = 0; i < boardWidth; i++){
+    for(let i = 0; i < boardLength; i++){
         tiles[i] = [];
-        for(let j = 0; j < boardLength; j++){
+        for(let j = 0; j < boardWidth; j++){
             tiles[i][j] = new Tile(i,j,color);
             let tempColor = color;
             color = otherColor;
@@ -20,29 +20,29 @@ function defaultPieceSetUp(){
     //black pieces set up
     let color = "black";
     for(let i = 0; i < boardLength; i++){
-        tiles[1][i].plPiece(new Pawn(color, 1, i, boardWidth, boardLength, true));
+        tiles[i][1].plPiece(new Pawn(color, i, 1, boardWidth, boardLength, true));
     }
     tiles[0][0].plPiece(new Rooke(color, 0, 0, boardWidth, boardLength));
-    tiles[0][1].plPiece(new Knight(color, 0, 1, boardWidth, boardLength));
-    tiles[0][2].plPiece(new Bishop(color, 0, 2, boardWidth, boardLength));
-    tiles[0][3].plPiece(new Queen(color, 0, 3, boardWidth, boardLength));
-    tiles[0][4].plPiece(new King(color, 0, 4, boardWidth, boardLength));
-    tiles[0][5].plPiece(new Bishop(color, 0, 5, boardWidth, boardLength));
-    tiles[0][6].plPiece(new Knight(color, 0, 6, boardWidth, boardLength));
-    tiles[0][7].plPiece(new Rooke(color, 0, 7, boardWidth, boardLength));
+    tiles[1][0].plPiece(new Knight(color, 1, 0, boardWidth, boardLength));
+    tiles[2][0].plPiece(new Bishop(color, 2, 0, boardWidth, boardLength));
+    tiles[3][0].plPiece(new Queen(color, 3, 0, boardWidth, boardLength));
+    tiles[4][0].plPiece(new King(color, 4, 0, boardWidth, boardLength));
+    tiles[5][0].plPiece(new Bishop(color, 5, 0, boardWidth, boardLength));
+    tiles[6][0].plPiece(new Knight(color, 6, 0, boardWidth, boardLength));
+    tiles[7][0].plPiece(new Rooke(color, 7, 0, boardWidth, boardLength));
 
     //white pieces set up
     color = "white";
     for(let i = 0; i < boardLength; i++){
-        tiles[6][i].plPiece(new Pawn(color, 6, i, boardWidth, boardLength, true));
+        tiles[i][6].plPiece(new Pawn(color, i, 6, boardWidth, boardLength, true));
     }
-    tiles[7][0].plPiece(new Rooke(color, 7, 0, boardWidth, boardLength));
-    tiles[7][1].plPiece(new Knight(color, 7, 1, boardWidth, boardLength));
-    tiles[7][2].plPiece(new Bishop(color, 7, 2, boardWidth, boardLength));
-    tiles[7][3].plPiece(new Queen(color, 7, 3, boardWidth, boardLength));
-    tiles[7][4].plPiece(new King(color, 7, 4, boardWidth, boardLength));
-    tiles[7][5].plPiece(new Bishop(color, 7, 5, boardWidth, boardLength));
-    tiles[7][6].plPiece(new Knight(color, 7, 6, boardWidth, boardLength));
+    tiles[0][7].plPiece(new Rooke(color, 0, 7, boardWidth, boardLength));
+    tiles[1][7].plPiece(new Knight(color, 1, 7, boardWidth, boardLength));
+    tiles[2][7].plPiece(new Bishop(color, 2, 7, boardWidth, boardLength));
+    tiles[3][7].plPiece(new Queen(color, 3, 7, boardWidth, boardLength));
+    tiles[4][7].plPiece(new King(color, 4, 7, boardWidth, boardLength));
+    tiles[5][7].plPiece(new Bishop(color, 5, 7, boardWidth, boardLength));
+    tiles[6][7].plPiece(new Knight(color, 6, 7, boardWidth, boardLength));
     tiles[7][7].plPiece(new Rooke(color, 7, 7, boardWidth, boardLength));
 }
 
@@ -51,18 +51,20 @@ function possibleMoves(etile){
 }
 
 function movePiece(x1,y1,x2,y2){
-    if(tiles[y2][x2].isTileOccupied()){
-        tiles[y2][x2].rmPiece();
+    if(tiles[x2][y2].isTileOccupied()){
+        tiles[x2][y2].rmPiece();
     }
-    tiles[y2][x2].plPiece(tile[y1][x1].getPiece());
-    tiles[y2][x2].getPiece().giveY(y2);
-    tiles[y2][x2].getPiece().giveX(x2);    
-    tiles[y1][x1].rmPiece();
+    tiles[x2][y2].plPiece(tile[x1][y1].getPiece());
+    tiles[x2][y2].getPiece().giveX(x2);
+    tiles[x2][y2].getPiece().giveY(y2);    
+    tiles[x1][y1].rmPiece();
 }
 
 tileSetUp();
 defaultPieceSetUp();
-possibleMoves = tiles[0][2].getPiece().getMoveInfo();
-for(let i = 0; i < boardLength; i++){
+possibleMoves = tiles[0][1].getPiece().getMoveInfo();
+/*for(let i = 0; i < boardLength; i++){
     console.log(tiles[i][0].getTileX());
-}
+}*/
+console.log("("+tiles[0][1].getTileX()+","+tiles[0][1].getTileY()+")");
+console.log(tiles[0][1].getPiece());

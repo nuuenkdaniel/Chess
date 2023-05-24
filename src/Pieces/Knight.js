@@ -1,9 +1,12 @@
 class Knight extends Piece{
-    constructor(color, tileY, tileX, boardWidth, boardLength){
-        super(color, tileY, tileX, boardWidth, boardLength);
+    constructor(color, tileX, tileY, boardWidth, boardLength){
+        super(color, tileX, tileY, boardWidth, boardLength);
     }
 
     getMoveInfo(){
-        console.log("Moves 2 spaces in any direction and then 1 space to either left or right");
+        let possibleMoves = [];
+        let moveY = 0;
+        let moveX = 0;
+        
     }
 }

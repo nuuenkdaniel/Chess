@@ -1,6 +1,6 @@
 class Bishop extends Piece{
-    constructor(color, tileY, tileX, boardWidth, boardLength){
-        super(color, tileY, tileX, boardWidth, boardLength);
+    constructor(color, tileX, tileY, boardWidth, boardLength){
+        super(color, tileX, tileY, boardWidth, boardLength);
     }
 
     //find all possible moves for a bishop piece ignoring if a piece is in its way, handle that later
@@ -15,7 +15,7 @@ class Bishop extends Piece{
         possibleMoves[0] = [0,0];
 
         function update(){
-            possibleMoves[possibleMovesIndex] = [tMoveY,tMoveX]; 
+            possibleMoves[possibleMovesIndex] = [tMoveX,tMoveY]; 
             tMoveY += moveY;
             tMoveX += moveX;
             possibleMovesIndex++;
@@ -23,7 +23,7 @@ class Bishop extends Piece{
 
         [moveY, tMoveY, moveX, tMoveX] = [-1, -1, 1, 1];
         //loops all the possible moves top right
-        while((this.tileY+tMoveY > -1) && (this.tileX+tMoveX < this.boardWidth)){
+        while((this.tileY+tMoveY > -1) && (this.tileX+tMoveX < this.boardLength)){
             update();
         }
 
@@ -35,7 +35,7 @@ class Bishop extends Piece{
 
         //loops all the possible moves bottom left
         [moveY, tMoveY, moveX, tMoveX] = [1, 1, -1, -1];
-        while((this.tileY+tMoveY < this.boardLength) && (this.tileX+tMoveX > -1)){
+        while((this.tileY+tMoveY < this.boardWidth) && (this.tileX+tMoveX > -1)){
             update();
         }
 

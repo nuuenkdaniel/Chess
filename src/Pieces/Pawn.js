@@ -1,6 +1,6 @@
 class Pawn extends Piece{
-    constructor(color, tileY, tileX, boardWidth, boardLength, firstMove = true){
-        super(color, tileY, tileX, boardWidth, boardLength);
+    constructor(color, tileX, tileY, boardWidth, boardLength, firstMove = true){
+        super(color, tileX, tileY, boardWidth, boardLength);
         this.firstMove = firstMove;
     }
 

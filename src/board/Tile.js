@@ -1,7 +1,7 @@
 class Tile{
     constructor(tileX, tileY, color, piece = null){
-        this.tileX = tileX;
         this.tileY = tileY;
+        this.tileX = tileX;
         this.tileOccupied = false;
         this.piece = piece;
     }
