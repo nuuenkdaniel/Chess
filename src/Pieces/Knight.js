@@ -1,6 +1,6 @@
 class Knight extends Piece{
-    constructor(color){
-        this.color = color;
+    constructor(color, tileY, tileX, boardWidth, boardLength){
+        super(color, tileY, tileX, boardWidth, boardLength);
     }
 
     getMoveInfo(){

@@ -6,9 +6,9 @@ function tileSetUp(){
     let color = "FFFFFF";
     let otherColor = "A52A2A";
     for(let i = 0; i < boardWidth; i++){
-        tile[i] = [];
+        tiles[i] = [];
         for(let j = 0; j < boardLength; j++){
-            tile[i][j] = new Tile(j,i,color);
+            tiles[i][j] = new Tile(j,i,color);
             let tempColor = color;
             color = otherColor;
             otherColor = tempColor;
@@ -20,121 +20,46 @@ function defaultPieceSetUp(){
     //black pieces set up
     let color = "black";
     for(let i = 0; i < boardLength; i++){
-        tile[1][i] = new Pawn(color, true);
+        tiles[1][i].plPiece(new Pawn(color, 1, i, boardWidth, boardLength, true));
     }
-    tile[0][0] = new Rooke(color);
-    tile[0][1] = new Knight(color);
-    tile[0][2] = new Bishop(color);
-    tile[0][3] = new Queen(color);
-    tile[0][4] = new King(color);
-    tile[0][5] = new Bishop(color);
-    tile[0][6] = new Knight(color);
-    tile[0][7] = new Rooke(color);
+    tiles[0][0].plPiece(new Rooke(color, 0, 0, boardWidth, boardLength));
+    tiles[0][1].plPiece(new Knight(color, 0, 1, boardWidth, boardLength));
+    tiles[0][2].plPiece(new Bishop(color, 0, 2, boardWidth, boardLength));
+    tiles[0][3].plPiece(new Queen(color, 0, 3, boardWidth, boardLength));
+    tiles[0][4].plPiece(new King(color, 0, 4, boardWidth, boardLength));
+    tiles[0][5].plPiece(new Bishop(color, 0, 5, boardWidth, boardLength));
+    tiles[0][6].plPiece(new Knight(color, 0, 6, boardWidth, boardLength));
+    tiles[0][7].plPiece(new Rooke(color, 0, 7, boardWidth, boardLength));
 
     //white pieces set up
     color = "white";
     for(let i = 0; i < boardLength; i++){
-        tile[6][i] = new Pawn(color, true);
+        tiles[6][i].plPiece(new Pawn(color, 6, i, boardWidth, boardLength, true));
     }
-    tile[7][0] = new Rooke(color);
-    tile[7][1] = new Knight(color);
-    tile[7][2] = new Bishop(color);
-    tile[7][3] = new Queen(color);
-    tile[7][4] = new King(color);
-    tile[7][5] = new Bishop(color);
-    tile[7][6] = new Knight(color);
-    tile[7][7] = new Rooke(color);
+    tiles[7][0].plPiece(new Rooke(color, 7, 0, boardWidth, boardLength));
+    tiles[7][1].plPiece(new Knight(color, 7, 1, boardWidth, boardLength));
+    tiles[7][2].plPiece(new Bishop(color, 7, 2, boardWidth, boardLength));
+    tiles[7][3].plPiece(new Queen(color, 7, 3, boardWidth, boardLength));
+    tiles[7][4].plPiece(new King(color, 7, 4, boardWidth, boardLength));
+    tiles[7][5].plPiece(new Bishop(color, 7, 5, boardWidth, boardLength));
+    tiles[7][6].plPiece(new Knight(color, 7, 6, boardWidth, boardLength));
+    tiles[7][7].plPiece(new Rooke(color, 7, 7, boardWidth, boardLength));
 }
 
 function possibleMoves(etile){
-    let possibleTiles = [];
-    possibleTiles[0] = [-1,-1];
-    switch(this.tile.getPiece()){
-        case Pawn:
-            possibileTiles[0] = [-1,-1];
-            if(etile.getPiece().getColor() == "white"){
-                if((!tile[etile.getTileY()-1][etile.getTileX()].isTileOccupied()) && (etile.getTileY()-1 > -1)){
-                    possibleTiles[0] = [etile.getTileY()-1,etile.getTileX()];
-                    if(etile.getPiece().isFirstMove()){
-                        if((!tile[etile.getTileY()-2][etile.getTileX()].isTileOccupied()) && (etile.getTileY()-2 > -1)){
-                            possibleTiles[1] = [etile.getTileY()-2,etile.getTileX()];
-                        }
-                    }
-                }
-            }
-            else{
-                if((!tile[etile.getTileY()+1][etile.getTileX()].isTileOccupied()) && (etile.getTileY()+1 < boardWidth)){
-                    possibleTiles[0] = [etile.getTileY()+1,etile.getTileX()];
-                    if(etile.getPiece().isFirstMove()){
-                        if((!tile[etile.getTileY()+2][etile.getTileX()].isTileOccupied()) && (etile.getTileY()+2 < boardWidth)){
-                            possibleTiles[1] = [etile.getTileY()+2,etile.getTileX()];
-                        }
-                    }
-                }
-            }
-            return possibleTiles;
-        //come back to king later
-        case King:
-            let arrKingIncr
-            //Can king move up
-            if(((!tile[etile.getTileY()-1][etile.getTileX()].isTileOccupied()) || !(tile[etile.getTileY()-1][etile.getTileX()].getPiece().getColor() == etile.getPiece().getColor())) && (etile.getTileY()-1 > -1)){
-                possibleTiles[arrKingIncr] = [etile.getTileY()-1,etile.getTileX()];
-                arrKingIncr++;
-            }
-            //Can king move top right
-            if((!tile[etile.getTileY()-1][etile.getTileX()+1].isTileOccupied()) && (etile.getTileY()-1 > -1) && (etile.getTileX()+1 < boardLength)){
-                possibleTiles[arrKingIncr] = [etile.getTileY()-1,etile.getTileX()+1];
-                arrKingIncr++;
-            }
-            //Can king move right
-            if((!tile[etile.getTileY()][etile.getTileX()+1].isTileOccupied()) && (etile.getTileX()+1 < boardLength)){
-                possibleTiles[arrKingIncr] = [etile.getTileY(),etile.getTileX()];
-                arrKingIncr++;
-            }
-            //Can king move bottom right
-            if((!tile[etile.getTileY()+1][etile.getTileX()+1].isTileOccupied()) && (etile.getTileY()+1 < boardWidth) && (etile.getTileX+1 < boardLength)){
-                possibleTiles[arrKingIncr] = [etile.getTileY()+1,etile.getTileX()+1];
-                arrKingIncr++;
-            }
-            //Can king move down
-            if((!tile[etile.getTileY()+1][etile.getTileX()].isTileOccupied()) && (etile.getTileY()+1 < boardWidth)){
-                possibleTiles[arrKingIncr] = [etile.getTileY()+1,etile.getTileX()];
-                arrKingIncr++;
-            }
-            //Can king move bottom left
-            if((!tile[etile.getTileY()+1][etile.getTileX()-1].isTileOccupied()) && (etile.getTileY()+1 < boardWidth) && (etile.getTileX()-1 > -1)){
-                possibleTiles[arrKingIncr] = [etile.getTileY()+1,etile.getTileX()-1];
-                arrKingIncr++;
-            }
-            //Can king move left
-            if((!tile[etile.getTileY()][etile.getTileX()-1].isTileOccupied()) && (etile.getTileX()-1 > -1)){
-                possibleTiles[arrKingIncr] = [etile.getTileY(),etile.getTileX()-1];
-                arrKingIncr++;
-            }
-            //Can king move top left
-            if((!tile[etile.getTileY()-1][etile.getX()-1].isTileOccupied()) && (etile.getTileY()-1 > -1) && (etile.getTileX()-1 > -1)){
-                possibleTiles[arrKingIncr] = [etile.getTileY()-1,etile,getX()-1];
-            }
-            return possibleTiles;
-        case Bishop:
-            //Can bishop move top left
-            let bishopRowIndex = etile.getTileY()-1;
-            let bishopColumnIndex = etile.getTileX()+1;
-            let arrBishopIncr = 0;
-            while((bishopRowIndex > -1) && (bishipColumnIndex < boardLength)){
-                //need to change! piece needs to stop once it eats a piece
-                if(!(tile[bishopRowIndex][bishopColumnIndex].isTileOccupied()) || (tile[bishopRowIndex][bishopColumnIndex].getPiece().getColor()!=etile.getPiece().getColor())){
-                    possibleTiles[arrBishopIncr] = []
-                }
-            }
-            return possibleTiles;
-    }
+
 }
 
-function move(x1,y1,x2,y2){
-    if(tile[y2][x2].isTileOccupied()){
-        tile[y2][x2].rmPiece();
+function movePiece(x1,y1,x2,y2){
+    if(tiles[y2][x2].isTileOccupied()){
+        tiles[y2][x2].rmPiece();
     }
-    tile[y2][x2] = tile[y1][x1].getPiece();
-    tile[y1][x1].rmPiece();
+    tiles[y2][x2].plPiece(tile[y1][x1].getPiece());
+    tiles[y2][x2].getPiece().giveY(y2);
+    tiles[y2][x2].getPiece().giveX(x2);    
+    tiles[y1][x1].rmPiece();
 }
+
+tileSetUp();
+defaultPieceSetUp();
+console.log(tiles[1][0].getPiece());
