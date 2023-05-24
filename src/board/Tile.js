@@ -20,8 +20,10 @@ class Tile{
     }
     plPiece(piece){
         this.piece = piece;
+        this.tileOccupied = true;
     }
     rmPiece(){
         this.piece = null;
+        this.tileOccupied = false;
     }
 }

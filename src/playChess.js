@@ -54,17 +54,20 @@ function movePiece(x1,y1,x2,y2){
     if(tiles[x2][y2].isTileOccupied()){
         tiles[x2][y2].rmPiece();
     }
-    tiles[x2][y2].plPiece(tile[x1][y1].getPiece());
+    tiles[x2][y2].plPiece(tiles[x1][y1].getPiece());
     tiles[x2][y2].getPiece().giveX(x2);
-    tiles[x2][y2].getPiece().giveY(y2);    
+    tiles[x2][y2].getPiece().giveY(y2);
     tiles[x1][y1].rmPiece();
 }
 
 tileSetUp();
 defaultPieceSetUp();
-possibleMoves = tiles[0][1].getPiece().getMoveInfo();
-/*for(let i = 0; i < boardLength; i++){
-    console.log(tiles[i][0].getTileX());
-}*/
-console.log("("+tiles[0][1].getTileX()+","+tiles[0][1].getTileY()+")");
-console.log(tiles[0][1].getPiece());
+console.log(tiles[2][0].getPiece())
+movePiece(2,0,4,4);
+console.log("Piece (2,0) moved to (4,4)");
+console.log("Is tile occupied at (4,4) after move: "+tiles[4][4].isTileOccupied());
+console.log(tiles[2][0].getPiece());
+possibleMoves = tiles[4][4].getPiece().getMoveInfo();
+for(let i = 0; i < possibleMoves.length; i++){
+    console.log("("+possibleMoves[i][0]+","+possibleMoves[i][1]+")");
+}
