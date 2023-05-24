@@ -21,30 +21,26 @@ class Bishop extends Piece{
             possibleMovesIndex++;
         }
 
-        [moveY, tMoveY] = -1;
-        [moveX, tMoveX] = 1;
-        //loops all the possible moves top left
+        [moveY, tMoveY, moveX, tMoveX] = [-1, -1, 1, 1];
+        //loops all the possible moves top right
         while((this.tileY+tMoveY > -1) && (this.tileX+tMoveX < this.boardWidth)){
             update();
         }
 
-        //loops all the possible moves top right
-        [moveY, tMoveY] = -1;
-        [moveX, tMoveX] = -1;
+        //loops all the possible moves top left
+        [moveY, tMoveY, moveX, tMoveX] = [-1, -1, -1, -1];
         while((this.tileY+tMoveY > -1) && (this.tileX+tMoveX > -1)){
             update();
         }
 
-        //loops all the possible moves bottom right
-        [moveY, tMoveY] = 1;
-        [moveX, tMoveX] = -1;
+        //loops all the possible moves bottom left
+        [moveY, tMoveY, moveX, tMoveX] = [1, 1, -1, -1];
         while((this.tileY+tMoveY < this.boardLength) && (this.tileX+tMoveX > -1)){
             update();
         }
 
-        //loops all the possible moves bottom left
-        [moveY, tMoveY] = 1;
-        [moveX, tMoveX] = 1;
+        //loops all the possible moves bottom right
+        [moveY, tMoveY, moveX, tMoveX] = [1, 1, 1, 1];
         while((this.tileY+tMoveY < this.boardWidth) && (this.tileX+tMoveX < this.boardLength)){
             update();
         }

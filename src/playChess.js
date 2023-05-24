@@ -62,4 +62,7 @@ function movePiece(x1,y1,x2,y2){
 
 tileSetUp();
 defaultPieceSetUp();
-console.log(tiles[1][0].getPiece());
+possibleMoves = tiles[0][2].getPiece().getMoveInfo();
+for(let i = 0; i < possibleMoves.length; i++){
+    console.log("("+possibleMoves[i][0]+","+possibleMoves[i][1]+")");
+}
