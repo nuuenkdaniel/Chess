@@ -23,4 +23,45 @@ class ChessBoard{
     getTile(x,y){
         return this.board[x][y];
     }
+
+    defaultBoardSetUp(){
+        //black pieces set up
+        let color = "black";
+        for(let i = 0; i < boardLength; i++){
+            board.getTile(i,1).plPiece(new Pawn(color, i, 1, boardWidth, boardLength, true));
+        }
+        this.getTile(0,0).plPiece(new Rooke(color, 0, 0, boardWidth, boardLength));
+        this.getTile(1,0).plPiece(new Knight(color, 1, 0, boardWidth, boardLength));
+        this.getTile(2,0).plPiece(new Bishop(color, 2, 0, boardWidth, boardLength));
+        this.getTile(3,0).plPiece(new Queen(color, 3, 0, boardWidth, boardLength));
+        this.getTile(4,0).plPiece(new King(color, 4, 0, boardWidth, boardLength));
+        this.getTile(5,0).plPiece(new Bishop(color, 5, 0, boardWidth, boardLength));
+        this.getTile(6,0).plPiece(new Knight(color, 6, 0, boardWidth, boardLength));
+        this.getTile(7,0).plPiece(new Rooke(color, 7, 0, boardWidth, boardLength));
+
+        //white pieces set up
+        color = "white";
+        for(let i = 0; i < boardLength; i++){
+            this.getTile(i,6).plPiece(new Pawn(color, i, 6, boardWidth, boardLength, true));
+        }
+        this.getTile(0,7).plPiece(new Rooke(color, 0, 7, boardWidth, boardLength));
+        this.getTile(1,7).plPiece(new Knight(color, 1, 7, boardWidth, boardLength));
+        this.getTile(2,7).plPiece(new Bishop(color, 2, 7, boardWidth, boardLength));
+        this.getTile(3,7).plPiece(new Queen(color, 3, 7, boardWidth, boardLength));
+        this.getTile(4,7).plPiece(new King(color, 4, 7, boardWidth, boardLength));
+        this.getTile(5,7).plPiece(new Bishop(color, 5, 7, boardWidth, boardLength));
+        this.getTile(6,7).plPiece(new Knight(color, 6, 7, boardWidth, boardLength));
+        this.getTile(7,7).plPiece(new Rooke(color, 7, 7, boardWidth, boardLength));
+    }
+
+    movePiece(x1,y1,x2,y2){
+        if(this.getTile(x2,y2).isTileOccupied()){
+            this.getTile(x2,y2).rmPiece();
+        }
+        this.getTile(x2,y2).plPiece(this.getTile(x1,y1).getPiece());
+        this.getTile(x2,y2).getPiece().giveX(x2);
+        this.getTile(x2,y2).getPiece().giveY(y2);
+        this.getTile(x1,y1).rmPiece();
+        console.log("hello");
+    }
 }
