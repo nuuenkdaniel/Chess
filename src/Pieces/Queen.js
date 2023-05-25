@@ -1,4 +1,4 @@
-class Queen extends Piece{
+class Queen extends MovementPiece{
     constructor(color, tileX, tileY, board){
         super(color, tileX, tileY, board);
     }
