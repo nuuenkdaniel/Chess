@@ -9,11 +9,9 @@ class Bishop extends Piece{
         let tMoveY = this.tileY+moveY;
         let possibleMoves = [];
         let possibleMovesIndex = 0;
-        possibleMoves[possibleMovesIndex] = [-99,-99];
-        possibleMovesIndex++;
-        //Loops if tile is within boundaries of the board and there isn't a piece in the way
+        //Loops and appends possibleMoveCoords if position is within boundaries of the board
         while(((tMoveX < board.boardLength) && (tMoveX > -1)) && ((tMoveY < board.boardWidth) && (tMoveY > -1))){
-            //Stop piece if same color piece is in th way and stop on top of different color piece
+            //Stop piece before if same color piece is in the way and stops on top if different color piece
             if(board.getTile(tMoveX,tMoveY).isTileOccupied()){
                 if(board.getTile(tMoveX,tMoveY).getPiece().getColor() != this.getColor()){
                     possibleMoves[possibleMovesIndex] = [tMoveX,tMoveY];
@@ -32,10 +30,9 @@ class Bishop extends Piece{
     getMoveInfo(){
         let topLeftMoves = this.getPossibleMoves(-1,-1,this.board);
         let topRightMoves = this.getPossibleMoves(1,-1,this.board);
-        let bottomRightMoves = this.getPossibleMoves(1,1,this.board);
-        let bottomLeftMoves = this.getPossibleMoves(-1,1,this.board);
+        let botRightMoves = this.getPossibleMoves(1,1,this.board);
+        let botLeftMoves = this.getPossibleMoves(-1,1,this.board);
 
-        return topLeftMoves.concat(topRightMoves).concat(bottomRightMoves).concat(bottomLeftMoves);
+        return topLeftMoves.concat(topRightMoves).concat(botRightMoves).concat(botLeftMoves);
     }
-    
 }
