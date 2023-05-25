@@ -62,6 +62,5 @@ class ChessBoard{
         this.getTile(x2,y2).getPiece().giveX(x2);
         this.getTile(x2,y2).getPiece().giveY(y2);
         this.getTile(x1,y1).rmPiece();
-        console.log("hello");
     }
 }

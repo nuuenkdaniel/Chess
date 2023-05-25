@@ -11,7 +11,7 @@ class Bishop extends Piece{
         possibleMoves[possibleMovesIndex] = [-99,-99];
         possibleMovesIndex++;
         while((this.tileX+tMoveX < board.boardLength) && (this.tileY+tMoveY < board.boardWidth) && (this.tileX+tMoveX > -1) && (this.tileY+tMoveY > -1)){
-            possibleMoves[possibleMovesIndex] = [tMoveX,tMoveY];
+            possibleMoves[possibleMovesIndex] = [this.tileX+tMoveX,this.tileY+tMoveY];
             tMoveX += moveX;
             tMoveY += moveY;
             possibleMovesIndex++;
