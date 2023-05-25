@@ -15,7 +15,7 @@ class Bishop extends Piece{
         possibleMoves[0] = [0,0];
 
         function update(){
-            possibleMoves[possibleMovesIndex] = [this.tileX+tMoveX,this.tileY+tMoveY]; 
+            possibleMoves[possibleMovesIndex] = [tMoveX,tMoveY]; 
             tMoveY += moveY;
             tMoveX += moveX;
             possibleMovesIndex++;

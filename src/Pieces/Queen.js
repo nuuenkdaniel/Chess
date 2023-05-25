@@ -1,6 +1,6 @@
 class Queen extends Piece{
     constructor(color, tileX, tileY, boardWidth, boardLength){
-        super(color, tileY, tileX, boardWidth, boardLength);
+        super(color, tileX, tileY, boardWidth, boardLength);
     }
 
     getMoveInfo(){
