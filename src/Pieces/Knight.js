@@ -9,4 +9,8 @@ class Knight extends Piece{
         let moveX = 0;
         
     }
+
+    /*getPossibleMoves(moveX,moveY,board){
+        if(moveX)
+    }*/
 }
