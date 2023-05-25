@@ -1,6 +1,6 @@
 class Rooke extends Piece{
-    constructor(color, tileX, tileY, boardWidth, boardLength){
-        super(color, tileY, tileX, boardWidth, boardLength);
+    constructor(color, tileX, tileY, board){
+        super(color, tileX, tileY, board);
     }
 
     getMoveInfo(){

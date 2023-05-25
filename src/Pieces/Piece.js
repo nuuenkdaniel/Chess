@@ -1,13 +1,12 @@
 class Piece{
-    constructor(color, tileX, tileY, boardWidth, boardLength){
+    constructor(color, tileX, tileY, board){
         if(constructor == Piece){
             throw new error("Abstract classes can't be instantiated.");
         }
         this.color = color;
         this.tileX = tileX;
         this.tileY = tileY;
-        this.boardWidth = boardWidth;
-        this.boardLength = boardLength;
+        this.board = board;
         this.moveInfo = [];
     }
     
