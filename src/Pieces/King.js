@@ -3,72 +3,28 @@ class King extends Piece{
         super(color, tileX, tileY, board);
     }
 
+    getPossibleMoves(moveX,moveY,board,possibleMoves){
+        let tMoveX = this.tileX+moveX;
+        let tMoveY = this.tileY+moveY;
+        if(((tMoveX < board.boardLength) && (tMoveX > -1)) && ((tMoveY < board.boardWidth) && (tMoveY > -1))){
+            if((board.getTile(tMoveX,tMoveY).isTileOccupied()) && (board.getTile(tMoveX,tMoveY).getPiece().getColor() == this.getColor())){
+                return;
+            }
+            possibleMoves.push([tMoveX,tMoveY]);
+        }
+    }
+
     getMoveInfo(){
         let possibleMoves = [];
-        let possibleMovesIndex = 0;
-        let moveY = 0;
-        let moveX = 0;
-        possibleMoves[0] = [0,0];
-        function update(){
-            possibleMoves[possibleMovesIndex] = [moveX,moveY]; 
-            possibleMovesIndex++;
-        }
+        this.getPossibleMoves(-1,-1,this.board,possibleMoves);
+        this.getPossibleMoves(0,-1,this.board,possibleMoves);
+        this.getPossibleMoves(1,-1,this.board,possibleMoves);
+        this.getPossibleMoves(1,0,this.board,possibleMoves);
+        this.getPossibleMoves(1,1,this.board,possibleMoves);
+        this.getPossibleMoves(0,1,this.board,possibleMoves);
+        this.getPossibleMoves(-1,1,this.board,possibleMoves);
+        this.getPossibleMoves(-1,0,this.board,possibleMoves);
 
-        //can move up?
-        moveY = -1;
-        moveX = 0;
-        if(this.tileY+moveY > -1){
-            update();
-        }
-
-        //can move top right?
-        moveY = -1;
-        moveX = 1;
-        if((this.tileY+moveY > -1) && (this.tileX+moveX < boardLength)){
-            update();
-        }
-
-        //can move right?
-        moveY = 0;
-        moveX = 1;
-        if((this.tileX < boardLength)){
-            update();
-        }
-
-        //can move bottom right?
-        moveY = 1;
-        moveX = 1;
-        if((this.tileY+moveY < boardWidth) && (this.tileX+moveX < boardLength)){
-            update();
-        }
-
-        //can move down?
-        moveY = 1;
-        moveX = 0;
-        if(this.tileY+moveY < this.boardWidth){
-            update();
-        }
-
-        //can move bottom left?
-        moveY = 1;
-        moveX = -1;
-        if((this.tileY+moveY < this.boardWidth) && (this.tileX+moveX > -1)){
-            update();
-        }
-
-        //can move left?
-        moveY = 0;
-        moveX = -1;
-        if(this.tileX+moveX > -1){
-            update();
-        }
-
-        //can move top left?
-        moveY = -1;
-        moveX = -1;
-        if((this.tileY+moveY > -1) && (this.tileX+moveX > -1)){
-            update();
-        }
         return possibleMoves;
     }
 }

@@ -4,17 +4,15 @@ class Knight extends Piece{
     }
 
     //Checks if move is a possibleMove is possible return coords if not return [-99,-99]
-    getPossibleMoves(moveX,moveY,board, possibleMoves){
+    getPossibleMoves(moveX,moveY,board,possibleMoves){
         let tMoveX = this.tileX+moveX;
         let tMoveY = this.tileY+moveY;
-        //if ti
         if(((tMoveX < board.boardLength) && (tMoveX > -1)) && ((tMoveY < board.boardWidth) && (tMoveY > -1))){
             if((board.getTile(tMoveX,tMoveY).isTileOccupied()) && (board.getTile(tMoveX,tMoveY).getPiece().getColor() == this.getColor())){
                 return;
             }
             possibleMoves.push([tMoveX,tMoveY]);
         }
-        return;
     }
 
     getMoveInfo(){
