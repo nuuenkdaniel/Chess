@@ -15,13 +15,13 @@ class Pawn extends Piece{
         let possibleMoves = [];
         //Is there a white piece to bottom left
         if((this.tileX-1 > -1) && (this.tileY+1 < this.board.boardWidth) && (this.board.getTile(this.tileX-1,this.tileY+1).isTileOccupied())){
-            if(this.board.getTile(this.tileX-1,this.tileY+1).getColor() == "white"){
+            if(this.board.getTile(this.tileX-1,this.tileY+1).getPiece().getColor() == "white"){
                 possibleMoves.push([this.tileX-1,this.tileY+1]);
             }
         }
         //Is there a white piecce to bottom right
         if((this.tileX+1 < this.board.boardLength) && (this.tileY+1 < this.board.boardWidth) && (this.board.getTile(this.tileX+1,this.tileY+1).isTileOccupied())){
-            if(this.board.getTile(this.tileX+1,this.tileY+1).getColor() == "white"){
+            if(this.board.getTile(this.tileX+1,this.tileY+1).getPiece().getColor() == "white"){
                 possibleMoves.push([this.tileX+1,this.tileY+1]);
             }
         }
@@ -44,13 +44,13 @@ class Pawn extends Piece{
         let possibleMoves = [];
         //Is there a black piece to bottom left
         if((this.tileX-1 > -1) && (this.tileY-1 > -1) && (this.board.getTile(this.tileX-1,this.tileY-1).isTileOccupied())){
-            if(this.board.getTile(this.tileX-1,this.tileY-1).getColor() == "black"){
+            if(this.board.getTile(this.tileX-1,this.tileY-1).getPiece().getColor() == "black"){
                 possibleMoves.push([this.tileX-1,this.tileY-1]);
             }
         }
         //Is there a black piecce to bottom right
         if((this.tileX+1 < this.board.boardLength) && (this.tileY-1 > -1) && (this.board.getTile(this.tileX+1,this.tileY-1).isTileOccupied())){
-            if(this.board.getTile(this.tileX+1,this.tileY-1).getColor() == "white"){
+            if(this.board.getTile(this.tileX+1,this.tileY-1).getPiece().getColor() == "white"){
                 possibleMoves.push([this.tileX+1,this.tileY-1]);
             }
         }
