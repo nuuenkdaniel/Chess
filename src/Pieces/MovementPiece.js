@@ -16,14 +16,13 @@ class MovementPiece extends Piece{
             //Stop piece before if same color piece is in the way and stops on top if different color piece
             if(board.getTile(tMoveX,tMoveY).isTileOccupied()){
                 if(board.getTile(tMoveX,tMoveY).getPiece().getColor() != this.getColor()){
-                    possibleMoves[possibleMovesIndex] = [tMoveX,tMoveY];
+                    possibleMoves.push([tMoveX,tMoveY]);
                 }
                 break;
             }
-            possibleMoves[possibleMovesIndex] = [tMoveX,tMoveY];
+            possibleMoves.push([tMoveX,tMoveY]);
             tMoveX += moveX;
             tMoveY += moveY;
-            possibleMovesIndex++;
         }
         return possibleMoves;
     }

@@ -8,9 +8,10 @@ function setup(){
 
 setup();
 
-board.getTile(0,1).rmPiece();
-board.movePiece(1,0,0,5);
-let possibleMoves = board.getTile(0,0).getPiece().getMoveInfo();
+console.log(board.getTile(3,1).getPiece());
+//board.getTile(3,1).rmPiece();
+board.movePiece(4,1,3,3);
+let possibleMoves = board.getTile(3,1).getPiece().getMoveInfo();
 for(let i = 0; i < possibleMoves.length; i++){
     console.log("("+possibleMoves[i][0]+","+possibleMoves[i][1]+")");
 }

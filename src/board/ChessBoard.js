@@ -58,6 +58,9 @@ class ChessBoard{
         if(this.getTile(x2,y2).isTileOccupied()){
             this.getTile(x2,y2).rmPiece();
         }
+        if(this.getTile(x1,y1).getPiece() == Pawn){
+            this.getTile(x1,y1).getPiece().setFirstMove(false);
+        }
         this.getTile(x2,y2).plPiece(this.getTile(x1,y1).getPiece());
         this.getTile(x2,y2).getPiece().giveX(x2);
         this.getTile(x2,y2).getPiece().giveY(y2);
