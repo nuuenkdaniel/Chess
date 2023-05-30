@@ -1,19 +1,27 @@
 class ChessBoard{
-    constructor(boardLength, boardWidth){
+    constructor(boardLength, boardWidth, tileSize){
         this.boardLength = boardLength;
         this.boardWidth = boardWidth;
+        this.tileSize = tileSize;
         this.board = [];
         this.createBoard();
     }
 
     createBoard(){
-        let color = "FFFFFF";
-        let otherColor = "A52A2A";
+        let color = "#FFFFFF";
+        let otherColor = "#A52A2A";
+        let tempColor;
         for(let i = 0; i < this.boardLength; i++){
             this.board[i] = [];
+            if(i!=0){
+                tempColor = color;
+                color = otherColor;
+                otherColor = tempColor;
+            }
             for(let j = 0; j < this.boardWidth; j++){
-                this.board[i][j] = new Tile(i,j,color);
-                let tempColor = color;
+                this.board[i][j] = new Tile(i,j,color,tileSize);
+                //console.log("("+i+","+j+") color: "+color);
+                tempColor = color;
                 color = otherColor;
                 otherColor = tempColor;
             }

@@ -1,21 +1,50 @@
 let boardLength = 8;
 let boardWidth = 8;
-const board = new ChessBoard(boardLength, boardWidth);
+let tileSize = 70;
+let gridXOffSet = screen.width/2 - boardLength/2*tileSize;
+let gridYOffSet = screen.height/2 - boardWidth/2*tileSize;
+const board = new ChessBoard(boardLength, boardWidth, tileSize);
+let chessPieces;
 
-function setup(){
-    board.defaultBoardSetUp();
+function drawBoard(){
+    for(let i = 0; i < boardLength; i++){
+        for(let j = 0; j < boardWidth; j++){
+            const tileX = i * tileSize + gridXOffSet;
+            const tileY = j * tileSize + gridYOffSet;
+            board.getTile(i,j).giveX(tileX);
+            board.getTile(i,j).giveY(tileY);
+            fill(board.getTile(i,j).getColor());
+            rect(tileX,tileY,tileSize);
+        }
+    }
 }
 
-setup();
+function tilePressed(){
+    if(mouseIsPressed === true){
+        for(let i = 0; i < boardLength; i++){
+            for(let j = 0; j < boardWidth; j++){
+                if(board.getTile(i,j).isClicked()){
+                    console.log("tile: ("+i+","+j+"): was clicked");
+                    return true;
+                }
+            }
+        }
+    }
+    return;
+}
 
-console.log(board.getTile(4,0).getPiece());
-board.getTile(4,1).rmPiece();
-board.getTile(3,1).rmPiece();
-board.getTile(3,0).rmPiece();
-board.getTile(5,1).rmPiece();
-board.getTile(5,0).rmPiece();
-//board.movePiece(0,6,4,2);
-let possibleMoves = board.getTile(4,0).getPiece().getMoveInfo();
-for(let i = 0; i < possibleMoves.length; i++){
-    console.log("("+possibleMoves[i][0]+","+possibleMoves[i][1]+")");
+board.defaultBoardSetUp();
+
+function preload(){
+    //chessPieces = loadImage('assets/ChessPieces.png');
+}
+
+function setup(){
+    createCanvas(displayWidth,displayHeight);
+    background(0);
+}
+
+function draw(){
+    drawBoard();
+    tilePressed();
 }
