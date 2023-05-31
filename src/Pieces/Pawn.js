@@ -15,12 +15,14 @@ class Pawn extends Piece{
         let possibleMoves = [];
         //Is there a white piece to bottom left
         if((this.tileX-1 > -1) && (this.tileY+1 < this.board.boardWidth) && (this.board.getTile(this.tileX-1,this.tileY+1).isTileOccupied())){
+            console.log("bottom left");
             if(this.board.getTile(this.tileX-1,this.tileY+1).getPiece().getColor() == "white"){
                 possibleMoves.push([this.tileX-1,this.tileY+1]);
             }
         }
-        //Is there a white piecce to bottom right
+        //Is there a white piece to bottom right
         if((this.tileX+1 < this.board.boardLength) && (this.tileY+1 < this.board.boardWidth) && (this.board.getTile(this.tileX+1,this.tileY+1).isTileOccupied())){
+            console.log("bottom right");
             if(this.board.getTile(this.tileX+1,this.tileY+1).getPiece().getColor() == "white"){
                 possibleMoves.push([this.tileX+1,this.tileY+1]);
             }
@@ -32,7 +34,7 @@ class Pawn extends Piece{
         possibleMoves.push([this.tileX,this.tileY+1]);
         //Can move down 2 spaces if first move
         if(this.firstMove){
-            if((this.tileY+2 >= this.board.boardWidth) || (board.getTile(this.tileX,this.tileY+2).isTileOccupied())){
+            if((this.tileY+2 >= this.board.boardWidth) || (this.board.getTile(this.tileX,this.tileY+2).isTileOccupied())){
                 return possibleMoves;
             }
             possibleMoves.push([this.tileX,this.tileY+2]);
