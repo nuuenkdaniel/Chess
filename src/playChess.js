@@ -21,9 +21,9 @@ function drawBoard(){
 }
 
 function displayPossibleTiles(){
-    for(let i = 0; i < possibleTiles.length; i++){
-        const tileX = possibleTiles[i][0] * tileSize + gridXOffSet;
-        const tileY = possibleTiles[i][1] * tileSize + gridYOffSet;
+    for(let tile of possibleTiles){
+        const tileX = tile[0] * tileSize + gridXOffSet;
+        const tileY = tile[1] * tileSize + gridYOffSet;
         fill("#00FF00");
         rect(tileX,tileY,tileSize);
     }
@@ -36,15 +36,29 @@ function mousePressedHandler(){
 }
 
 function tilePressed(){
-    tileSelected = [];
-    possibleTiles = [];
+    console.log("mouseClicked");
     for(let i = 0; i < boardLength; i++){
         for(let j = 0; j < boardWidth; j++){
-            if(board.getTile(i,j).isClicked() && board.getTile(i,j).isTileOccupied()){
-                console.log("("+i+","+j+"): was clicked");
-                tileSelected = [i,j];
-                possibleTiles = board.getTile(i,j).getPiece().getMoveInfo();
-                displayPossibleTiles();
+            if(board.getTile(i,j).isClicked()){
+                //console.log("("+i+","+j+"): was clicked");
+                if(possibleTiles.length > 0){
+                    //console.log("got here");
+                    for(let tile of possibleTiles){
+                        if((tile[0] == i) && (tile[1] == j)){
+                            board.movePiece(tileSelected[0],tileSelected[1],i,j);
+                            //console.log("got here");
+                            tileSelected = [];
+                            possibleTiles = [];
+                            return true;
+                        }
+                    }
+                }
+                if(board.getTile(i,j).isTileOccupied()){
+                    //console.log("got here 2");
+                    tileSelected = [i,j];
+                    possibleTiles = board.getTile(i,j).getPiece().getMoveInfo();
+                    displayPossibleTiles();
+                }
                 return true;
             }
         }
