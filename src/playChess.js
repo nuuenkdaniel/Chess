@@ -6,6 +6,7 @@ const gridYOffSet = screen.height/2 - boardWidth/2*tileSize;
 const board = new ChessBoard(boardLength, boardWidth, tileSize);
 let tileSelected = [];
 let possibleTiles = [];
+let pieceSelected = [];
 
 function drawBoard(){
     for(let i = 0; i < boardLength; i++){
@@ -31,39 +32,49 @@ function displayPossibleTiles(){
 
 function mousePressedHandler(){
     if(mouseIsPressed === true){
-        tilePressed();
+        tileSelected = tilePressed();
+        if(tileSelected.length>0){
+            if(!possibleMovePressed(tileSelected)){
+                setPossibleTiles(tileSelected);
+            }
+        }
     }
 }
 
 function tilePressed(){
-    console.log("mouseClicked");
     for(let i = 0; i < boardLength; i++){
         for(let j = 0; j < boardWidth; j++){
             if(board.getTile(i,j).isClicked()){
-                //console.log("("+i+","+j+"): was clicked");
-                if(possibleTiles.length > 0){
-                    //console.log("got here");
-                    for(let tile of possibleTiles){
-                        if((tile[0] == i) && (tile[1] == j)){
-                            board.movePiece(tileSelected[0],tileSelected[1],i,j);
-                            //console.log("got here");
-                            tileSelected = [];
-                            possibleTiles = [];
-                            return true;
-                        }
-                    }
-                }
-                if(board.getTile(i,j).isTileOccupied()){
-                    //console.log("got here 2");
-                    tileSelected = [i,j];
-                    possibleTiles = board.getTile(i,j).getPiece().getMoveInfo();
-                    displayPossibleTiles();
-                }
+                console.log("("+i+","+j+"): was clicked");
+                return [i,j];
+            }
+        }
+    }
+    possibleTiles = [];
+    return [];
+}
+
+function possibleMovePressed(tile){
+    if(possibleTiles.length > 0){
+        for(tiles of possibleTiles){
+            if((tiles[0] = tile[0]) && (tiles[1] == tile[1])){
+                board.movePiece(pieceSelected[0],pieceSelected[1],tile[0],tile[1]);
+                tileSelected = [];
+                possibleTiles = [];
+                pieceSelected = [];
                 return true;
             }
         }
     }
     return false;
+}
+
+function setPossibleTiles(tile){
+    if(board.getTile(tile[0],tile[1]).isTileOccupied()){
+        possibleTiles = board.getTile(tile[0],tile[1]).getPiece().getMoveInfo();
+        pieceSelected = tile;
+        displayPossibleTiles();
+    }
 }
 
 board.defaultBoardSetUp();
