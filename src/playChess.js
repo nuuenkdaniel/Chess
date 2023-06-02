@@ -50,6 +50,10 @@ function drawPiece(tile){
     }
 }
 
+function changeTurn(){
+    turn = (turn === "white")? "black" : "white";
+}
+
 function displayPossibleTiles(){
     for(let tile of possibleTiles){
         const tileX = tile[0] * tileSize + gridXOffSet;
@@ -93,7 +97,7 @@ function possibleMovePressed(tile){
                 tileSelected = [];
                 possibleTiles = [];
                 pieceSelected = [];
-                turn = "black";
+                changeTurn();
                 return true;
             }
         }
@@ -104,10 +108,12 @@ function possibleMovePressed(tile){
 
 function setPossibleTiles(tile){
     if(board.getTile(tile[0],tile[1]).isTileOccupied()){
-        possibleTiles = board.getTile(tile[0],tile[1]).getPiece().getMoveInfo();
-        pieceSelected = tile;
-        displayPossibleTiles();
-        return true;
+        if(board.getTile(tile[0],tile[1]).getPiece().getColor() == turn){
+            possibleTiles = board.getTile(tile[0],tile[1]).getPiece().getMoveInfo();
+            pieceSelected = tile;
+            displayPossibleTiles();
+            return true;
+        }
     }
     return false;
 }

@@ -8,7 +8,7 @@ class Piece{
         this.tileY = tileY;
         this.board = board;
         this.moveInfo = [];
-        this.pieceType;
+        this.pieceType = null;
     }
     
     getColor(){
