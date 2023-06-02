@@ -8,6 +8,7 @@ class Piece{
         this.tileY = tileY;
         this.board = board;
         this.moveInfo = [];
+        this.pieceType;
     }
     
     getColor(){
@@ -15,6 +16,9 @@ class Piece{
     }
     getMoveInfo(){
         throw new error("Method 'getMoveInfo()' must be implemented");
+    }
+    getType(){
+        throw new error("Method 'getType()' must be implemented");
     }
     giveY(yCoord){
         this.tileY = yCoord;

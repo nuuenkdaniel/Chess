@@ -12,4 +12,7 @@ class Bishop extends MovementPiece{
 
         return topLeftMoves.concat(topRightMoves).concat(botRightMoves).concat(botLeftMoves);
     }
+    getType(){
+        return "bishop";
+    }
 }

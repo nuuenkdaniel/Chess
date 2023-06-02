@@ -7,6 +7,7 @@ const board = new ChessBoard(boardLength, boardWidth, tileSize);
 let tileSelected = [];
 let possibleTiles = [];
 let pieceSelected = [];
+let turn = "white";
 
 function drawBoard(){
     for(let i = 0; i < boardLength; i++){
@@ -17,7 +18,35 @@ function drawBoard(){
             board.getTile(i,j).giveY(tileY);
             fill(board.getTile(i,j).getColor());
             rect(tileX,tileY,tileSize);
+            drawPiece(board.getTile(i,j));
         }
+    }
+}
+
+function drawPiece(tile){
+    let piece = tile.getPiece()
+    if (!piece) return;
+    let colorOffSet = piece.getColor() === "white"? 0 : 333
+    switch(piece.getType()){
+        case "king":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 0, colorOffSet, 333, 333);
+            break;
+        case "queen":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 333, colorOffSet, 333, 333);
+            break;
+        case "bishop":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 666, colorOffSet, 333, 333);
+            break;
+        case "knight":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 999, colorOffSet, 333, 333);
+            break;
+        case "rooke":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 1332, colorOffSet, 333, 333);
+            break;
+        case "pawn":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 1665, colorOffSet, 333, 333);
+            break;
+
     }
 }
 
@@ -63,6 +92,7 @@ function possibleMovePressed(tile){
                 tileSelected = [];
                 possibleTiles = [];
                 pieceSelected = [];
+                turn = "black";
                 return true;
             }
         }
@@ -83,7 +113,7 @@ function setPossibleTiles(tile){
 board.defaultBoardSetUp();
 
 function preload(){
-    //chessPieces = loadImage('assets/ChessPieces.png');
+    chessPieces = loadImage('src/assets/ChessPieces.png');
 }
 
 function setup(){

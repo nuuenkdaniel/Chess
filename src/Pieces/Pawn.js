@@ -78,4 +78,8 @@ class Pawn extends Piece{
     setFirstMove(bool){
         this.firstMove = bool;
     }
+
+    getType(){
+        return "pawn";
+    }
 }

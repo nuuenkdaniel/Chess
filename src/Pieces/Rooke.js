@@ -11,4 +11,7 @@ class Rooke extends MovementPiece{
 
         return up.concat(right).concat(down).concat(left);
     }
+    getType(){
+        return "rooke";
+    }
 }

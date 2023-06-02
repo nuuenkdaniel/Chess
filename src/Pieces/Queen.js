@@ -15,4 +15,7 @@ class Queen extends MovementPiece{
         
         return up.concat(right).concat(down).concat(left).concat(topLeftMoves).concat(topRightMoves).concat(botRightMoves).concat(botLeftMoves);
     }
+    getType(){
+        return "queen";
+    }
 }

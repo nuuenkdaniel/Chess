@@ -27,4 +27,8 @@ class King extends Piece{
 
         return possibleMoves;
     }
+
+    getType(){
+        return "king";
+    }
 }

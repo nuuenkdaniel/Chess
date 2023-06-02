@@ -28,4 +28,7 @@ class Knight extends Piece{
 
         return possibleMoves;
     }
+    getType(){
+        return "knight";
+    }
 }
