@@ -8,6 +8,7 @@ let tileSelected = [];
 let possibleTiles = [];
 let pieceSelected = [];
 let turn = "white";
+let chessPieces;
 
 function drawBoard(){
     for(let i = 0; i < boardLength; i++){
@@ -26,27 +27,26 @@ function drawBoard(){
 function drawPiece(tile){
     let piece = tile.getPiece()
     if (!piece) return;
-    let colorOffSet = piece.getColor() === "white"? 0 : 333
+    let colorYOffSet = piece.getColor() === "white"? 0 : 333
     switch(piece.getType()){
         case "king":
-            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 0, colorOffSet, 333, 333);
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 0, colorYOffSet, 333, 333);
             break;
         case "queen":
-            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 333, colorOffSet, 333, 333);
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 333, colorYOffSet, 333, 333);
             break;
         case "bishop":
-            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 666, colorOffSet, 333, 333);
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 666, colorYOffSet, 333, 333);
             break;
         case "knight":
-            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 999, colorOffSet, 333, 333);
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 999, colorYOffSet, 333, 333);
             break;
         case "rooke":
-            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 1332, colorOffSet, 333, 333);
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 1332, colorYOffSet, 333, 333);
             break;
         case "pawn":
-            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 1665, colorOffSet, 333, 333);
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 1665, colorYOffSet, 333, 333);
             break;
-
     }
 }
 
@@ -56,6 +56,7 @@ function displayPossibleTiles(){
         const tileY = tile[1] * tileSize + gridYOffSet;
         fill("#00FF00");
         rect(tileX,tileY,tileSize);
+        drawPiece(board.getTile(tile[0],tile[1]));
     }
 }
 
@@ -97,6 +98,7 @@ function possibleMovePressed(tile){
             }
         }
     }
+    possibleTiles = [];
     return false;
 }
 

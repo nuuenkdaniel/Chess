@@ -44,15 +44,17 @@ class Pawn extends Piece{
 
     getMoveInfoWhitePawn(){
         let possibleMoves = [];
-        //Is there a black piece to bottom left
+        //Is there a black piece to top left
         if((this.tileX-1 > -1) && (this.tileY-1 > -1) && (this.board.getTile(this.tileX-1,this.tileY-1).isTileOccupied())){
             if(this.board.getTile(this.tileX-1,this.tileY-1).getPiece().getColor() == "black"){
                 possibleMoves.push([this.tileX-1,this.tileY-1]);
             }
         }
-        //Is there a black piecce to bottom right
+        //Is there a black piecce to top right
         if((this.tileX+1 < this.board.boardLength) && (this.tileY-1 > -1) && (this.board.getTile(this.tileX+1,this.tileY-1).isTileOccupied())){
-            if(this.board.getTile(this.tileX+1,this.tileY-1).getPiece().getColor() == "white"){
+            
+            if(this.board.getTile(this.tileX+1,this.tileY-1).getPiece().getColor() == "black"){
+                console.log("got here");
                 possibleMoves.push([this.tileX+1,this.tileY-1]);
             }
         }
