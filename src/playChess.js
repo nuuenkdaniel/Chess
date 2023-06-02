@@ -51,13 +51,14 @@ function tilePressed(){
         }
     }
     possibleTiles = [];
+    pieceSelected = [];
     return [];
 }
 
 function possibleMovePressed(tile){
-    if(possibleTiles.length > 0){
-        for(tiles of possibleTiles){
-            if((tiles[0] = tile[0]) && (tiles[1] == tile[1])){
+    if(pieceSelected.length > 0){
+        for(let tiles of possibleTiles){
+            if((tiles[0] === tile[0]) && (tiles[1] === tile[1])){
                 board.movePiece(pieceSelected[0],pieceSelected[1],tile[0],tile[1]);
                 tileSelected = [];
                 possibleTiles = [];
@@ -74,7 +75,9 @@ function setPossibleTiles(tile){
         possibleTiles = board.getTile(tile[0],tile[1]).getPiece().getMoveInfo();
         pieceSelected = tile;
         displayPossibleTiles();
+        return true;
     }
+    return false;
 }
 
 board.defaultBoardSetUp();
