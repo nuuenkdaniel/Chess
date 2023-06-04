@@ -1,12 +1,18 @@
 class King extends Piece{
     constructor(color, tileX, tileY, board){
         super(color, tileX, tileY, board);
+        this.checkedTiles = [];
     }
 
     getPossibleMoves(moveX,moveY,board,possibleMoves){
         let tMoveX = this.tileX+moveX;
         let tMoveY = this.tileY+moveY;
         if(((tMoveX < board.boardLength) && (tMoveX > -1)) && ((tMoveY < board.boardWidth) && (tMoveY > -1))){
+            for(let i = 0; i < this.checkedTiles.length; i++){
+                if((this.checkedTiles[i][0] === tMoveX) && (this.checkedTiles[i][1] === tMoveY)){
+                    return;
+                }
+            }
             if((board.getTile(tMoveX,tMoveY).isTileOccupied()) && (board.getTile(tMoveX,tMoveY).getPiece().getColor() == this.getColor())){
                 return;
             }
@@ -26,6 +32,14 @@ class King extends Piece{
         this.getPossibleMoves(-1,0,this.board,possibleMoves);
 
         return possibleMoves;
+    }
+
+    giveCheckedTiles(checkedTiles){
+        this.checkedTiles = checkedTiles;
+    }
+
+    getCheckTiles(){
+        return this.checkedTiles;
     }
 
     getType(){

@@ -24,6 +24,24 @@ function drawBoard(){
     }
 }
 
+function checkedTiles(color){
+    let possibleMoves = [];
+    for(let i = 0; i < boardLength; i++){
+        for(let e = 0; e < boardWidth; e++){
+            if(board.getTile(i,e).getPiece() !== null){
+                if(board.getTile(i,e).getPiece().getColor() === color){
+                    possibleMoves = possibleMoves.concat(board.getTile(i,e).getPiece().getMoveInfo());
+                }
+            }
+        }
+    }
+    return possibleMoves;
+}
+
+function isKingChecked(){
+
+}
+
 function drawPiece(tile){
     let piece = tile.getPiece()
     if (!piece) return;
@@ -48,10 +66,6 @@ function drawPiece(tile){
             image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 1665, colorYOffSet, 333, 333);
             break;
     }
-}
-
-function changeTurn(){
-    turn = (turn === "white")? "black" : "white";
 }
 
 function displayPossibleTiles(){
@@ -97,7 +111,7 @@ function possibleMovePressed(tile){
                 tileSelected = [];
                 possibleTiles = [];
                 pieceSelected = [];
-                changeTurn();
+                turn = (turn === "white")? "black" : "white";
                 return true;
             }
         }
@@ -109,6 +123,9 @@ function possibleMovePressed(tile){
 function setPossibleTiles(tile){
     if(board.getTile(tile[0],tile[1]).isTileOccupied()){
         if(board.getTile(tile[0],tile[1]).getPiece().getColor() == turn){
+            if(board.getTile(tile[0],tile[1]).getPiece().getType() === "king"){
+                board.getTile(tile[0],tile[1]).getPiece().giveCheckedTiles(checkedTiles("white"));
+            }
             possibleTiles = board.getTile(tile[0],tile[1]).getPiece().getMoveInfo();
             pieceSelected = tile;
             displayPossibleTiles();
