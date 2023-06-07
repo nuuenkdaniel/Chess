@@ -3,11 +3,11 @@ class Rooke extends MovementPiece{
         super(color, tileX, tileY, board);
     }
 
-    getMoveInfo(){
-        let up = this.getPossibleMoves(0,-1,this.board);
-        let right = this.getPossibleMoves(1,0,this.board);
-        let down = this.getPossibleMoves(0,1,this.board);
-        let left = this.getPossibleMoves(-1,0,this.board);
+    getMoveInfo(mode){
+        let up = this.getPossibleMoves(0,-1,this.board,mode);
+        let right = this.getPossibleMoves(1,0,this.board,mode);
+        let down = this.getPossibleMoves(0,1,this.board,mode);
+        let left = this.getPossibleMoves(-1,0,this.board,mode);
 
         return up.concat(right).concat(down).concat(left);
     }

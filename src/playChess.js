@@ -9,7 +9,10 @@ let possibleTiles = [];
 let pieceSelected = [];
 let turn = "white";
 let chessPieces;
+let whiteKing;
+let blackKing;
 
+//draws the tiles
 function drawBoard(){
     for(let i = 0; i < boardLength; i++){
         for(let j = 0; j < boardWidth; j++){
@@ -24,13 +27,15 @@ function drawBoard(){
     }
 }
 
+//returns all the possible moves of the opposing color to the color given
 function checkedTiles(color){
     let possibleMoves = [];
+    //loops through every tile on the board, if piece exists on tile and is the opposite color then add its possible moves to the list
     for(let i = 0; i < boardLength; i++){
         for(let e = 0; e < boardWidth; e++){
             if(board.getTile(i,e).getPiece() !== null){
-                if(board.getTile(i,e).getPiece().getColor() === color){
-                    possibleMoves = possibleMoves.concat(board.getTile(i,e).getPiece().getMoveInfo());
+                if(board.getTile(i,e).getPiece().getColor() !== color){
+                    possibleMoves = possibleMoves.concat(board.getTile(i,e).getPiece().getMoveInfo("checkedTiles"));
                 }
             }
         }
@@ -38,9 +43,16 @@ function checkedTiles(color){
     return possibleMoves;
 }
 
-function isKingChecked(){
-
-}
+/*function isKingChecked(king){
+    let possibleMoves = king.getCheckedTiles();
+    for(let tiles of possibleMoves){
+        if(tiles[0] === king.getX() && tiles[1] === king.getY()){
+            console.log("king is checked");
+            return true;
+        }
+    }
+    return false;
+}*/
 
 function drawPiece(tile){
     let piece = tile.getPiece()
@@ -111,7 +123,16 @@ function possibleMovePressed(tile){
                 tileSelected = [];
                 possibleTiles = [];
                 pieceSelected = [];
-                turn = (turn === "white")? "black" : "white";
+                whiteKing.giveCheckedTiles(checkedTiles("white"));
+                blackKing.giveCheckedTiles(checkedTiles("black"));
+                if(turn === "white"){
+                    //isKingChecked(whiteKing);
+                    turn = "black";
+                }
+                else{
+                    //isKingChecked(blackKing);
+                    turn = "white";
+                }
                 return true;
             }
         }
@@ -124,7 +145,9 @@ function setPossibleTiles(tile){
     if(board.getTile(tile[0],tile[1]).isTileOccupied()){
         if(board.getTile(tile[0],tile[1]).getPiece().getColor() == turn){
             if(board.getTile(tile[0],tile[1]).getPiece().getType() === "king"){
-                board.getTile(tile[0],tile[1]).getPiece().giveCheckedTiles(checkedTiles("white"));
+                board.getTile(tile[0],tile[1]).setTileOccupied(false);
+                board.getTile(tile[0],tile[1]).getPiece().giveCheckedTiles(checkedTiles(turn));
+                board.getTile(tile[0],tile[1]).setTileOccupied(true);
             }
             possibleTiles = board.getTile(tile[0],tile[1]).getPiece().getMoveInfo();
             pieceSelected = tile;
@@ -136,6 +159,8 @@ function setPossibleTiles(tile){
 }
 
 board.defaultBoardSetUp();
+whiteKing = board.getTile(4,0).getPiece();
+blackKing = board.getTile(4,7).getPiece();
 
 function preload(){
     chessPieces = loadImage('src/assets/ChessPieces.png');

@@ -19,6 +19,9 @@ class Tile{
     isTileOccupied(){
         return this.tileOccupied;
     }
+    setTileOccupied(bool){
+        this.tileOccupied = bool;
+    }
     getColor(){
         return this.color;
     }

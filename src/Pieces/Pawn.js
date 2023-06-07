@@ -4,18 +4,48 @@ class Pawn extends Piece{
         this.firstMove = firstMove;
     }
 
-    getMoveInfo(){
+    getMoveInfo(mode){
+        //If mode is checkedTiles then return 2 diagnol tiles to the piece
+        if(mode === "checkedTiles"  ){
+            if(this.getColor() == "black"){
+                return this.getAltMvInfoBlackPawn();
+            }
+            return this.getAltMvInfoWhitePawn();
+        }
+        //If mode is not checkedTiles return possibleMoves
         if(this.getColor() == "black"){
             return this.getMoveInfoBlackPawn();
         }
         return this.getMoveInfoWhitePawn();
     }
 
+    getAltMvInfoBlackPawn(){
+        let possibleMoves = [];
+        if((this.tileX-1 > -1) && (this.tileY+1 < this.board.boardWidth)){
+            possibleMoves.push([this.tileX-1,this.tileY+1]);
+        }
+        if((this.tileX+1 < this.board.boardLength) && (this.tileY+1 < this.board.boardWidth)){
+            possibleMoves.push([this.tileX+1,this.tileY+1]);
+        }
+        return possibleMoves;
+    }
+
+    getAltMvInfoWhitePawn(){
+        let possibleMoves = [];
+        if((this.tileX-1 > -1) && (this.tileY-1 > -1)){
+            possibleMoves.push([this.tileX-1,this.tileY-1]);
+        }
+        if((this.tileX+1 < this.board.boardLength) && (this.tileY-1 > -1)){
+            possibleMoves.push([this.tileX+1,this.tileY-1]);
+        }
+        return possibleMoves;
+    }
+
     getMoveInfoBlackPawn(){
         let possibleMoves = [];
         //Is there a white piece to bottom left
         if((this.tileX-1 > -1) && (this.tileY+1 < this.board.boardWidth) && (this.board.getTile(this.tileX-1,this.tileY+1).isTileOccupied())){
-            if(this.board.getTile(this.tileX-1,this.tileY+1).getPiece().getColor() == "white"){
+            if(this.board.getTile(this.tileX-1,this.tileY+1).getPiece().getColor() === "white"){
                 possibleMoves.push([this.tileX-1,this.tileY+1]);
             }
         }

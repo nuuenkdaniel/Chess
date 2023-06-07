@@ -14,16 +14,22 @@ class Piece{
     getColor(){
         return this.color;
     }
-    getMoveInfo(){
+    getMoveInfo(mode){
         throw new error("Method 'getMoveInfo()' must be implemented");
     }
     getType(){
         throw new error("Method 'getType()' must be implemented");
     }
+    giveX(xCoord){
+        this.tileX = xCoord;
+    }
     giveY(yCoord){
         this.tileY = yCoord;
     }
-    giveX(xCoord){
-        this.tileX = xCoord;
+    getX(){
+        return this.tileX;
+    }
+    getY(){
+        return this.tileY;
     }
 }

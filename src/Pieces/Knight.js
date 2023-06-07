@@ -3,28 +3,33 @@ class Knight extends Piece{
         super(color, tileX, tileY, board);
     }
 
-    //Checks if move is a possibleMove is possible return coords if not return [-99,-99]
-    getPossibleMoves(moveX,moveY,board,possibleMoves){
+    //Checks if move is a possibleMove is possible
+    getPossibleMoves(moveX,moveY,board,possibleMoves,mode){
         let tMoveX = this.tileX+moveX;
         let tMoveY = this.tileY+moveY;
+        //Make sure move is with bounds of the board
         if(((tMoveX < board.boardLength) && (tMoveX > -1)) && ((tMoveY < board.boardWidth) && (tMoveY > -1))){
-            if((board.getTile(tMoveX,tMoveY).isTileOccupied()) && (board.getTile(tMoveX,tMoveY).getPiece().getColor() == this.getColor())){
-                return;
+            //If not mode is not checkedTiles then skip this
+            if(mode !== checkedTiles){
+                // If piece is on move return
+                if((board.getTile(tMoveX,tMoveY).isTileOccupied()) && (board.getTile(tMoveX,tMoveY).getPiece().getColor() == this.getColor())){
+                    return;
+                }
             }
             possibleMoves.push([tMoveX,tMoveY]);
         }
     }
 
-    getMoveInfo(){
+    getMoveInfo(mode){
         let possibleMoves = [];
-        this.getPossibleMoves(-1,-2,this.board,possibleMoves);
-        this.getPossibleMoves(1,-2,this.board,possibleMoves);
-        this.getPossibleMoves(2,-1,this.board,possibleMoves);
-        this.getPossibleMoves(2,1,this.board,possibleMoves);
-        this.getPossibleMoves(1,2,this.board,possibleMoves);
-        this.getPossibleMoves(-1,2,this.board,possibleMoves);
-        this.getPossibleMoves(-2,1,this.board,possibleMoves);
-        this.getPossibleMoves(-2,-1,this.board,possibleMoves);
+        this.getPossibleMoves(-1,-2,this.board,possibleMoves,mode);
+        this.getPossibleMoves(1,-2,this.board,possibleMoves,mode);
+        this.getPossibleMoves(2,-1,this.board,possibleMoves,mode);
+        this.getPossibleMoves(2,1,this.board,possibleMoves,mode);
+        this.getPossibleMoves(1,2,this.board,possibleMoves,mode);
+        this.getPossibleMoves(-1,2,this.board,possibleMoves,mode);
+        this.getPossibleMoves(-2,1,this.board,possibleMoves,mode);
+        this.getPossibleMoves(-2,-1,this.board,possibleMoves,mode);
 
         return possibleMoves;
     }
