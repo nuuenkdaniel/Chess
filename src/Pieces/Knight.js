@@ -10,7 +10,7 @@ class Knight extends Piece{
         //Make sure move is with bounds of the board
         if(((tMoveX < board.boardLength) && (tMoveX > -1)) && ((tMoveY < board.boardWidth) && (tMoveY > -1))){
             //If not mode is not checkedTiles then skip this
-            if(mode !== checkedTiles){
+            if(mode !== "checkedTiles"){
                 // If piece is on move return
                 if((board.getTile(tMoveX,tMoveY).isTileOccupied()) && (board.getTile(tMoveX,tMoveY).getPiece().getColor() == this.getColor())){
                     return;

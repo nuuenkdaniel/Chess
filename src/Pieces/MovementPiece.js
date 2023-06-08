@@ -10,7 +10,6 @@ class MovementPiece extends Piece{
         let tMoveX = this.tileX+moveX;
         let tMoveY = this.tileY+moveY;
         let possibleMoves = [];
-        let possibleMovesIndex = 0;
         //Loops and appends possibleMoveCoords if position is within boundaries of the board
         while(((tMoveX < board.boardLength) && (tMoveX > -1)) && ((tMoveY < board.boardWidth) && (tMoveY > -1))){
             //Stop piece before if same color piece is in the way unless mode is checkedTiles and stops on top if different color piece
@@ -23,8 +22,8 @@ class MovementPiece extends Piece{
                 //If piece is a different color add piece to the list and break
                 if(board.getTile(tMoveX,tMoveY).getPiece().getColor() != this.getColor()){
                     possibleMoves.push([tMoveX,tMoveY]);
-                    break;
                 }
+                break;  
             }
             possibleMoves.push([tMoveX,tMoveY]);
             tMoveX += moveX;
