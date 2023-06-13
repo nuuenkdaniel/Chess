@@ -46,7 +46,6 @@ function checkedTiles(color){
 function isKingChecked(king){
     for(let tiles of king.getCheckedTiles()){
         if(tiles[0] === king.getX() && tiles[1] === king.getY()){
-            //console.log("king is checked: ("+king.getX()+","+king.getY()+")");
             return true;
         }
     }
@@ -78,9 +77,7 @@ function canMove(possibleTiles,origin){
         firstMove = piece.isFirstMove();
     }
     board.getTile(origin[0],origin[1]).plPiece(piece);
-    for(let i = possibleTiles.length-1; i >= 0; i--){
-        //console.log(i);
-        //console.log(possibleTiles[i][0]+","+possibleTiles[i][1]);
+    for(let i = possibleTiles.length-1; i >= 0; i--) {
         if(board.getTile(possibleTiles[i][0],possibleTiles[i][1]).isTileOccupied()) {
             if(board.getTile(possibleTiles[i][0],possibleTiles[i][1]).getPiece().getColor() !== piece.getColor()){
                 let piece2 = board.getTile(possibleTiles[i][0],possibleTiles[i][1]).getPiece();
@@ -105,7 +102,6 @@ function canMoveChecks(possibleTiles,origin,piece,index) {
         whiteKing.giveCheckedTiles(checkedTiles("white"));
         if(isKingChecked(whiteKing)) {
             board.movePiece(possibleTiles[index][0],possibleTiles[index][1],origin[0],origin[1]);
-            //console.log("spliced: ("+possibleTiles[index][0]+","+possibleTiles[index][1]+")");
             possibleTiles.splice(index,1);
         }
         else{
@@ -116,7 +112,6 @@ function canMoveChecks(possibleTiles,origin,piece,index) {
         blackKing.giveCheckedTiles(checkedTiles("black"));
         if(isKingChecked(blackKing)) {
             board.movePiece(possibleTiles[index][0],possibleTiles[index][1],origin[0],origin[1]);
-            //console.log("spliced: ("+possibleTiles[index][0]+","+possibleTiles[index][1]+")");
             possibleTiles.splice(index,1);
         }
         else{
@@ -162,6 +157,32 @@ function displayPossibleTiles(){
     }
 }
 
+function gameOver(){
+    if(checkMate(blackKing)){  
+        console.log("Black Checkmate!");
+    }
+    else if(checkMate(whiteKing)){
+        console.log("White Checkmate!");
+    }
+}
+
+function checkMate(king){
+    let possibleMoves = [];
+    for(let i = 0; i < boardLength; i++){
+        for(let e = 0; e < boardWidth; e++){
+            if(board.getTile(i,e).isTileOccupied()){
+                if(board.getTile(i,e).getPiece().getColor() === king.getColor()){
+                    possibleMoves = possibleMoves.concat(canMove(board.getTile(i,e).getPiece().getMoveInfo(),[i,e]));
+                }
+            }
+        }
+    }
+    if((possibleMoves.length < 1) && isKingChecked(king)){
+        return true;
+    }
+    return false;
+}
+
 function mousePressedHandler(){
     if(mouseIsPressed === true){
         tileSelected = tilePressed();
@@ -177,7 +198,7 @@ function tilePressed(){
     for(let i = 0; i < boardLength; i++){
         for(let j = 0; j < boardWidth; j++){
             if(board.getTile(i,j).isClicked()){
-                console.log("("+i+","+j+"): was clicked");
+                //console.log("("+i+","+j+"): was clicked");
                 return [i,j];
             }
         }
@@ -192,17 +213,22 @@ function possibleMovePressed(tile){
         for(let tiles of possibleTiles){
             if((tiles[0] === tile[0]) && (tiles[1] === tile[1])){
                 board.movePiece(pieceSelected[0],pieceSelected[1],tile[0],tile[1]);
+                gameOver();
                 tileSelected = [];
                 possibleTiles = [];
                 pieceSelected = [];
                 whiteKing.giveCheckedTiles(checkedTiles("white"));
                 blackKing.giveCheckedTiles(checkedTiles("black"));
                 if(turn === "white"){
-                    isKingChecked(blackKing);
+                    if(isKingChecked(blackKing)) {
+                        console.log("black is checked");
+                    }
                     turn = "black";
                 }
                 else{
-                    isKingChecked(whiteKing);
+                    if(isKingChecked(whiteKing)) {
+                        console.log("white is checked");
+                    }
                     turn = "white";
                 }
                 return true;

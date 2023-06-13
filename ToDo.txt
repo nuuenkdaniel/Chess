@@ -1,4 +1,4 @@
 Get king is checked working DONE!
 If check king must get out of check 
-Make it so piece cannot move if it will put king in check
+Make it so piece cannot move if it will put king in check DONE!
 Make castle possible
