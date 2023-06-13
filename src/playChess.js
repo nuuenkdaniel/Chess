@@ -46,11 +46,84 @@ function checkedTiles(color){
 function isKingChecked(king){
     for(let tiles of king.getCheckedTiles()){
         if(tiles[0] === king.getX() && tiles[1] === king.getY()){
-            console.log("king is checked: ("+king.getX()+","+king.getY()+")");
+            //console.log("king is checked: ("+king.getX()+","+king.getY()+")");
             return true;
         }
     }
     return false;
+}
+
+function canMove(possibleTiles,origin){
+    let piece = board.getTile(origin[0],origin[1]).getPiece();
+    board.getTile(origin[0],origin[1]).rmPiece();
+    if(piece.getColor() === "white") {
+        whiteKing.giveCheckedTiles(checkedTiles("white"));
+        if(!isKingChecked(whiteKing)) {
+            board.getTile(origin[0],origin[1]).plPiece(piece);
+            whiteKing.giveCheckedTiles(checkedTiles("white"));
+            return possibleTiles;
+        }
+    }
+    else{
+        blackKing.giveCheckedTiles(checkedTiles("black"));
+        if(!isKingChecked(blackKing)) {
+            board.getTile(origin[0],origin[1]).plPiece(piece);
+            whiteKing.giveCheckedTiles(checkedTiles("black"));
+            return possibleTiles;
+        }
+    }
+
+    let firstMove;
+    if(piece.getType() === "pawn"){
+        firstMove = piece.isFirstMove();
+    }
+    board.getTile(origin[0],origin[1]).plPiece(piece);
+    for(let i = possibleTiles.length-1; i >= 0; i--){
+        //console.log(i);
+        //console.log(possibleTiles[i][0]+","+possibleTiles[i][1]);
+        if(board.getTile(possibleTiles[i][0],possibleTiles[i][1]).isTileOccupied()) {
+            if(board.getTile(possibleTiles[i][0],possibleTiles[i][1]).getPiece().getColor() !== piece.getColor()){
+                let piece2 = board.getTile(possibleTiles[i][0],possibleTiles[i][1]).getPiece();
+                let tempPos = [possibleTiles[i][0],possibleTiles[i][1]];
+                possibleTiles = canMoveChecks(possibleTiles,origin,piece,i);
+                board.getTile(tempPos[0],tempPos[1]).plPiece(piece2);
+            }
+        }
+        else {
+            possibleTiles = canMoveChecks(possibleTiles,origin,piece,i);
+        }
+    }
+    if(piece.getType() === "pawn"){
+        piece.setFirstMove(firstMove);
+    }
+    return possibleTiles;
+}
+
+function canMoveChecks(possibleTiles,origin,piece,index) {
+    board.movePiece(origin[0],origin[1],possibleTiles[index][0],possibleTiles[index][1]);
+    if(piece.getColor() === "white"){
+        whiteKing.giveCheckedTiles(checkedTiles("white"));
+        if(isKingChecked(whiteKing)) {
+            board.movePiece(possibleTiles[index][0],possibleTiles[index][1],origin[0],origin[1]);
+            //console.log("spliced: ("+possibleTiles[index][0]+","+possibleTiles[index][1]+")");
+            possibleTiles.splice(index,1);
+        }
+        else{
+            board.movePiece(possibleTiles[index][0],possibleTiles[index][1],origin[0],origin[1]);
+        }
+    }
+    else{
+        blackKing.giveCheckedTiles(checkedTiles("black"));
+        if(isKingChecked(blackKing)) {
+            board.movePiece(possibleTiles[index][0],possibleTiles[index][1],origin[0],origin[1]);
+            //console.log("spliced: ("+possibleTiles[index][0]+","+possibleTiles[index][1]+")");
+            possibleTiles.splice(index,1);
+        }
+        else{
+            board.movePiece(possibleTiles[index][0],possibleTiles[index][1],origin[0],origin[1]);
+        }
+    }
+    return possibleTiles;
 }
 
 function drawPiece(tile){
@@ -150,6 +223,7 @@ function setPossibleTiles(tile){
             }
             possibleTiles = board.getTile(tile[0],tile[1]).getPiece().getMoveInfo();
             pieceSelected = tile;
+            possibleTiles = canMove(possibleTiles,tile);
             displayPossibleTiles();
             return true;
         }

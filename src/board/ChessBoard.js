@@ -62,6 +62,7 @@ class ChessBoard{
         this.getTile(7,7).plPiece(new Rooke(color, 7, 7, this));
     }
 
+    //With the assumption the tile selected has a piece
     movePiece(x1,y1,x2,y2){
         if(this.getTile(x2,y2).isTileOccupied()){
             this.getTile(x2,y2).rmPiece();
