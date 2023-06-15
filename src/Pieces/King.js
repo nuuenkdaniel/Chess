@@ -51,8 +51,4 @@ class King extends Piece{
     getType(){
         return "king";
     }
-
-    getColor(){
-        return this.color;
-    }
 }
