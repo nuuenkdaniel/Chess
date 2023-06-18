@@ -1,6 +1,15 @@
 class Rooke extends MovementPiece{
-    constructor(color, tileX, tileY, board){
+    constructor(color, tileX, tileY, board, firstMove = true){
         super(color, tileX, tileY, board);
+        this.firstMove = firstMove;
+    }
+
+    isFirstMove(){
+        return this.firstMove;
+    }
+    
+    setFirstMove(bool){
+        this.firstMove = bool;
     }
 
     getMoveInfo(mode){

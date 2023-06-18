@@ -36,7 +36,7 @@ class ChessBoard{
         //black pieces set up
         let color = "black";
         for(let i = 0; i < this.boardLength; i++){
-            board.getTile(i,1).plPiece(new Pawn(color, i, 1, this, true));
+            this.getTile(i,1).plPiece(new Pawn(color, i, 1, this, true));
         }
         this.getTile(0,0).plPiece(new Rooke(color, 0, 0, this));
         this.getTile(1,0).plPiece(new Knight(color, 1, 0, this));
@@ -64,11 +64,15 @@ class ChessBoard{
 
     //With the assumption the tile selected has a piece
     movePiece(x1,y1,x2,y2){
-        if(this.getTile(x2,y2).isTileOccupied()){
+        if(this.getTile(x2,y2).isTileOccupied()) {
             this.getTile(x2,y2).rmPiece();
         }
-        if(this.getTile(x1,y1).getPiece().getType() == "pawn"){
-            this.getTile(x1,y1).getPiece().setFirstMove(false);
+        for(let i = 0; i < 3; i++) {
+            let pieces = ["pawn","king","rooke"];
+            if(this.getTile(x1,y1).getPiece().getType() === pieces[i]){
+                this.getTile(x1,y1).getPiece().setFirstMove(false);
+                break;
+            }
         }
         this.getTile(x2,y2).plPiece(this.getTile(x1,y1).getPiece());
         this.getTile(x2,y2).getPiece().giveX(x2);

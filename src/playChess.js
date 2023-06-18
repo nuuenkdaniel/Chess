@@ -47,20 +47,6 @@ function checkedTiles(color){
 }
 
 /**
- * Checks if the king is checked 
- * @param {King} king - the king that you want to check
- * @return {Boolean} - returns true if king is checked and false if king is not checked
- */
-function isKingChecked(king){
-    for(let tiles of king.getCheckedTiles()){
-        if(tiles[0] === king.getX() && tiles[1] === king.getY()){
-            return true;
-        }
-    }
-    return false;
-}
-
-/**
  * Filters the list of possible moves, removing any move that will put the king in check
  * @param {Array} possibleTiles - The list of possible moves that will be filtered
  * @param {Array} origin - The coordinates of the piece on the board corresponding to those possible moves
@@ -84,7 +70,7 @@ function checkFirstPossibleMove(possibleTiles,origin,piece){
     board.getTile(origin[0],origin[1]).rmPiece();
     if(piece.getColor() === "white") {
         whiteKing.giveCheckedTiles(checkedTiles("white"));
-        if(!isKingChecked(whiteKing)) {
+        if(!whiteKing.isChecked()) {
             board.getTile(origin[0],origin[1]).plPiece(piece);
             whiteKing.giveCheckedTiles(checkedTiles("white"));
             return true;
@@ -92,7 +78,7 @@ function checkFirstPossibleMove(possibleTiles,origin,piece){
     }
     else{
         blackKing.giveCheckedTiles(checkedTiles("black"));
-        if(!isKingChecked(blackKing)) {
+        if(!blackKing.isChecked()) {
             board.getTile(origin[0],origin[1]).plPiece(piece);
             whiteKing.giveCheckedTiles(checkedTiles("black"));
             return true;
@@ -148,7 +134,7 @@ function canMoveChecks(possibleTiles,origin,piece,index) {
     board.movePiece(origin[0],origin[1],possibleTiles[index][0],possibleTiles[index][1]);
     if(piece.getColor() === "white"){
         whiteKing.giveCheckedTiles(checkedTiles("white"));
-        if(isKingChecked(whiteKing)) {
+        if(whiteKing.isChecked()) {
             board.movePiece(possibleTiles[index][0],possibleTiles[index][1],origin[0],origin[1]);
             possibleTiles.splice(index,1);
         }
@@ -158,7 +144,7 @@ function canMoveChecks(possibleTiles,origin,piece,index) {
     }
     else{
         blackKing.giveCheckedTiles(checkedTiles("black"));
-        if(isKingChecked(blackKing)) {
+        if(blackKing.isChecked()) {
             board.movePiece(possibleTiles[index][0],possibleTiles[index][1],origin[0],origin[1]);
             possibleTiles.splice(index,1);
         }
@@ -236,10 +222,7 @@ function checkMate(king){
             }
         }
     }
-    if((possibleMoves.length < 1) && isKingChecked(king)){
-        return true;
-    }
-    return false;
+    return (possibleMoves.length < 1 && king.isChecked())
 }
 
 //Event handler for when mouse pressed
@@ -289,13 +272,13 @@ function possibleMovePressed(tile){
                 whiteKing.giveCheckedTiles(checkedTiles("white"));
                 blackKing.giveCheckedTiles(checkedTiles("black"));
                 if(turn === "white"){
-                    if(isKingChecked(blackKing)) {
+                    if(blackKing.isChecked()) {
                         console.log("black is checked");
                     }
                     turn = "black";
                 }
                 else{
-                    if(isKingChecked(whiteKing)) {
+                    if(whiteKing.isChecked()) {
                         console.log("white is checked");
                     }
                     turn = "white";
