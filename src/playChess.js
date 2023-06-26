@@ -92,17 +92,21 @@ function checkFirstPossibleMove(possibleTiles,origin,piece){
  * @param {Array} possibleTiles - The list of possible moves
  * @param {Array} origin - The coordinates of the piece on the board corresponding to the possible moves
  * @param {piece} piece - The piece corresponding to the possible moves
- * @return {Array}- The modified list
+ * @return {Array} - The modified list
  */
 function moveAndCheck(possibleTiles,origin,piece){
-    //Pawn special case need to keep pawns initial state
+    //Special case need to keep pawns, kings, or rookes initial state
+    let pieces = ["pawn","king","rooke"];
     let firstMove;
-    if(piece.getType() === "pawn"){
-        firstMove = piece.isFirstMove();
+    for(let j = 0; j < 3; j++) {
+        if(piece.getType() === pieces[j]){
+            firstMove = piece.isFirstMove();
+            break;
+        }
     }
     board.getTile(origin[0],origin[1]).plPiece(piece);
     for(let i = possibleTiles.length-1; i >= 0; i--) {
-        //If another piece exists on the possible move, store info about that piece and place it back after check
+        //If another piece exists on the possible move, store info about that piece and place it back after the check
         if(board.getTile(possibleTiles[i][0],possibleTiles[i][1]).isTileOccupied()) {
             if(board.getTile(possibleTiles[i][0],possibleTiles[i][1]).getPiece().getColor() !== piece.getColor()){
                 let piece2 = board.getTile(possibleTiles[i][0],possibleTiles[i][1]).getPiece();
@@ -115,9 +119,12 @@ function moveAndCheck(possibleTiles,origin,piece){
             possibleTiles = canMoveChecks(possibleTiles,origin,piece,i);
         }
     }
-    //reverts pawn back to initial state
-    if(piece.getType() === "pawn"){
-        piece.setFirstMove(firstMove);
+    //reverts pawn, king, or rooke back to initial state
+    for(let k = 0; k < 3; k++) {
+        if(piece.getType() === pieces[k]){
+            piece.setFirstMove(firstMove);
+            break;
+        }
     }
     return possibleTiles;
 }
@@ -225,6 +232,14 @@ function checkMate(king){
     return (possibleMoves.length < 1 && king.isChecked())
 }
 
+function castlePressed(king,tile){
+    console.log(king.getX());
+    console.log(pieceSelected[0]);
+    if(king.getX()+2 === pieceSelected[0] && board.getTile(tile[0],tile[1]).getPiece().getType() === "king") return "left";
+    if(king.getX()-2 === pieceSelected[0] && board.getTile(tile[0],tile[1]).getPiece().getType() === "king") return "right";
+    return;
+}
+
 //Event handler for when mouse pressed
 function mousePressedHandler(){
     if(mouseIsPressed === true){
@@ -272,12 +287,16 @@ function possibleMovePressed(tile){
                 whiteKing.giveCheckedTiles(checkedTiles("white"));
                 blackKing.giveCheckedTiles(checkedTiles("black"));
                 if(turn === "white"){
+                    if(board.getTile(tile[0],tile[1]).getPiece().getType() === "king" && castlePressed(whiteKing,tile) === "left") board.castle(whiteKing,"left");
+                    else if(castlePressed(whiteKing,tile) === "right") board.castle(whiteKing,"right");
                     if(blackKing.isChecked()) {
                         console.log("black is checked");
                     }
                     turn = "black";
                 }
                 else{
+                    if(board.getTile(tile[0],tile[1]).getPiece().getType() === "king" && castlePressed(blackKing,tile) === "left") board.castle(blackKing,"left");
+                    else if(castlePressed(blackKing,tile) === "right") board.castle(blackKing,"right");
                     if(whiteKing.isChecked()) {
                         console.log("white is checked");
                     }

@@ -30,26 +30,41 @@ class King extends Piece{
      * @return {Boolean} - True if the piece can castle; False if otherwise
      */
     canCastle(direction){
-        if(this.firstMove === true){
+        if(this.firstMove === true && !this.isChecked()){
             if(direction === "left"){
                 let piece = this.board.getTile(0,this.tileY).getPiece();
                 if(piece.getType() === "rooke") {
                     if(piece.isFirstMove() === false || piece.getColor() !== this.getColor()) return false;
-                    if(this.board.getTile(this.tileX-1,this.tileY).isTileOccupied() || this.board.getTile(this.tileX-2,this.tileY).isTileOccupied()) return false;
+                    for(let i = 1; i <= 3; i++) {
+                        if(this.board.getTile(this.tileX-i,this.tileY).isTileOccupied()) return false;
+                    }
                     return true;
                 } 
                 return false;
             }
-            else{
+            else if(direction === "right") {
                 let piece = this.board.getTile(7,this.tileY).getPiece();
                 if(piece.getType() === "rooke") {
-                    if(piece.isFirstMove() === false || piece.getColor() === this.getColor()) return false;
-                    if(this.board.getTile(this.tileX+1,this.tileY).isTileOccupied() || this.board.getTile(this.tileX+2,this.tileY).isTileOccupied()) return false;
+                    if(piece.isFirstMove() === false || piece.getColor() !== this.getColor()) return false;
+                    for(let i = 1; i <= 2; i++) {
+                        if(this.board.getTile(this.tileX+i,this.tileY).isTileOccupied()) return false;
+                    }
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    getCastleCoords(direction) {
+        let possibleMoves = [];
+        if(this.canCastle("left") && direction === "left"){
+            possibleMoves.push([this.tileX-2,this.tileY]);
+        }
+        if(this.canCastle("right") && direction === "right"){
+            possibleMoves.push([this.tileX+2,this.tileY]);
+        }
+        return possibleMoves;
     }
 
     getPossibleMoves(moveX,moveY,board,possibleMoves,mode){
@@ -85,6 +100,7 @@ class King extends Piece{
         possibleMoves = this.getPossibleMoves(0,1,this.board,possibleMoves,mode);
         possibleMoves = this.getPossibleMoves(-1,1,this.board,possibleMoves,mode);
         possibleMoves = this.getPossibleMoves(-1,0,this.board,possibleMoves,mode);
+        possibleMoves = possibleMoves.concat(this.getCastleCoords("left")).concat(this.getCastleCoords("right"));
 
         return possibleMoves;
     }

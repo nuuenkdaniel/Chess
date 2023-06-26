@@ -79,4 +79,13 @@ class ChessBoard{
         this.getTile(x2,y2).getPiece().giveY(y2);
         this.getTile(x1,y1).rmPiece();
     }
+
+    castle(king,direction){
+        if(direction === "left") {
+            this.movePiece(0,king.getY(),king.getX()+1,king.getY());
+        }
+        else if(direction === "right"){
+            this.movePiece(7,king.getY(),king.getX()-1,king.getY());
+        }
+    }
 }
