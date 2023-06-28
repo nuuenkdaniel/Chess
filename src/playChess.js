@@ -25,6 +25,61 @@ function drawBoard(){
             drawPiece(board.getTile(i,j));
         }
     }
+    drawLetterCoords();
+    drawNumCoords();
+}
+
+/**
+ * Draws the image of the piece at the given tile on the chess board
+ * @param {Tile} tile - A tile on the chess board
+ */
+function drawPiece(tile){
+    let piece = tile.getPiece()
+    if (!piece) return;
+    let colorYOffSet = piece.getColor() === "white"? 0 : 333
+    switch(piece.getType()){
+        case "king":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 0, colorYOffSet, 333, 333);
+            break;
+        case "queen":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 333, colorYOffSet, 333, 333);
+            break;
+        case "bishop":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 666, colorYOffSet, 333, 333);
+            break;
+        case "knight":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 999, colorYOffSet, 333, 333);
+            break;
+        case "rooke":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 1332, colorYOffSet, 333, 333);
+            break;
+        case "pawn":
+            image(chessPieces, tile.getX(), tile.getY(), tileSize, tileSize, 1665, colorYOffSet, 333, 333);
+            break;
+    }
+}
+
+//draws the letter coordinates at the bottom of the board
+function drawLetterCoords(){
+    const letterCords = ['a','b','c','d','e','f','g','h'];
+    const yPixel = board.getTile(0,boardWidth-1).getY()+tileSize+20;
+    for(let i = 0; i < boardLength; i++) {
+        const xPixel = board.getTile(i,0).getX()+tileSize/2-6;
+        fill("#FFFFFF");
+        textSize(20);
+        text(letterCords[i],xPixel,yPixel);
+    }
+}
+
+//draws the number coordinates on th left of the board
+function drawNumCoords(){
+    const xPixel = board.getTile(0,0).getX()-20;
+    for(let i = boardWidth-1; i >= 0; i--) {
+        const yPixel = board.getTile(0,i).getY()+tileSize/2+6;
+        fill("#FFFFFF");
+        textSize(20);
+        text(str(boardWidth-i),xPixel,yPixel);
+    }
 }
 
 /**
