@@ -44,12 +44,14 @@ class King extends Piece{
             }
             else if(direction === "right") {
                 let piece = this.board.getTile(7,this.tileY).getPiece();
-                if(piece.getType() === "rooke") {
-                    if(piece.isFirstMove() === false || piece.getColor() !== this.getColor()) return false;
-                    for(let i = 1; i <= 2; i++) {
-                        if(this.board.getTile(this.tileX+i,this.tileY).isTileOccupied()) return false;
+                if(piece !== null) {
+                    if(piece.getType() === "rooke") {
+                        if(piece.isFirstMove() === false || piece.getColor() !== this.getColor()) return false;
+                        for(let i = 1; i <= 2; i++) {
+                            if(this.board.getTile(this.tileX+i,this.tileY).isTileOccupied()) return false;
+                        }
+                        return true;
                     }
-                    return true;
                 }
             }
         }

@@ -3,7 +3,7 @@ class Knight extends Piece{
         super(color, tileX, tileY, board);
     }
 
-    //Checks if move is a possibleMove is possible
+    //Checks if move is a possibleMove is possible and returns it
     getPossibleMoves(moveX,moveY,board,possibleMoves,mode){
         let tMoveX = this.tileX+moveX;
         let tMoveY = this.tileY+moveY;
