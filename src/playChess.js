@@ -4,6 +4,8 @@ const tileSize = 70;
 const gridXOffSet = screen.width/2 - boardLength/2*tileSize;
 const gridYOffSet = screen.height/2 - boardWidth/2*tileSize;
 const board = new ChessBoard(boardLength, boardWidth, tileSize);
+const [a,b,c,d,e,f,g,h] = [0,1,2,3,4,5,6,7,8];
+let promotionBoard = [];
 let tileSelected = [];
 let possibleTiles = [];
 let pieceSelected = [];
@@ -126,22 +128,7 @@ function possibleMovePressed(tile){
                 gameOver();
                 board.whiteKing.giveCheckedTiles(board.checkedTiles("white"));
                 board.blackKing.giveCheckedTiles(board.checkedTiles("black"));
-                if(turn === "white"){
-                    if(board.getTile(tile[0],tile[1]).getPiece().getType() === "king" && castlePressed(board.whiteKing,tile) === "left") board.castle(board.whiteKing,"left");
-                    else if(castlePressed(board.whiteKing,tile) === "right") board.castle(board.whiteKing,"right");
-                    if(board.blackKing.isChecked()) {
-                        console.log("black is checked");
-                    }
-                    turn = "black";
-                }
-                else{
-                    if(board.getTile(tile[0],tile[1]).getPiece().getType() === "king" && castlePressed(board.blackKing,tile) === "left") board.castle(board.blackKing,"left");
-                    else if(castlePressed(board.blackKing,tile) === "right") board.castle(board.blackKing,"right");
-                    if(board.whiteKing.isChecked()) {
-                        console.log("white is checked");
-                    }
-                    turn = "white";
-                }
+                possibleMovesPressedSection(tile);
                 tileSelected = [];
                 possibleTiles = [];
                 pieceSelected = [];
@@ -151,6 +138,21 @@ function possibleMovePressed(tile){
     }
     possibleTiles = [];
     return false;
+}
+
+/**
+ * Castles when king is moved 2 spaces
+ * Checks whether king is checked
+ * Ends the turn and changes turns to the opposite color
+ * @param {Tile} tile - A tile on the chessboard
+ */
+function possibleMovesPressedSection(tile){
+    let king = (turn === "white")? board.whiteKing : board.blackKing;
+    turn = (turn === "white")? "black" : "white";
+    if(board.getTile(tile[0],tile[1]).getPiece().getType() === "king" && castlePressed(king,tile) === "left") board.castle(king,"left");
+    else if(castlePressed(king,tile) === "right") board.castle(king,"right");
+    if(turn === "black" && board.blackKing.isChecked()) console.log("black is checked");
+    else if(turn === "white" && board.whiteKing.isChecked()) console.log("white is checked");
 }
 
 /**
@@ -202,9 +204,30 @@ function castlePressed(king,tile){
     if(king.getX()-2 === pieceSelected[0] && board.getTile(tile[0],tile[1]).getPiece().getType() === "king") return "right";
 }
 
-//Main
-board.defaultBoardSetUp();
+// Creates the board that contains the pieces that a pawn can promote to
+function createPromotionBoard(){
+    let pieces = [new Bishop(null,0,0,board),new Knight(null,1,0,board),new Rooke(null,2,0,board),new Queen(null,3,0,board)];
+    for(let i = 0; i < 4; i++) promotionBoard[i] = new Tile(i,0,"#A52A2A",tileSize,pieces[i]);
+}
 
+/**
+ * Draws the board displaying the pieces the pawn can promote to 
+ * @param {*} color - the color of the promoting pawn
+ */
+function drawPromotionBoard(color){
+    for(let i = 0; i < 4; i++){
+        const tileX = board.getTile(7,i).getX() + tileSize*2;
+        const tileY = board.getTile(7,i).getY();
+        promotionBoard[i].giveX(tileX);
+        promotionBoard[i].giveY(tileY);
+        promotionBoard[i].getPiece().giveColor(color);
+        fill("#A52A2A");
+        rect(tileX,tileY,tileSize);
+        drawPiece(promotionBoard[i]);
+    }
+}
+
+//Main
 function preload(){
     chessPieces = loadImage('src/assets/ChessPieces.png');
 }
@@ -212,6 +235,8 @@ function preload(){
 function setup(){
     createCanvas(displayWidth,displayHeight);
     background(0);
+    board.defaultBoardSetUp();
+    createPromotionBoard();
 }
 
 function draw(){

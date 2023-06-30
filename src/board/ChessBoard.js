@@ -91,6 +91,15 @@ class ChessBoard{
             this.movePiece(7,king.getY(),king.getX()-1,king.getY());
         }
     }
+    
+    /**
+     * Promotes pawn to desired piece
+     * @param {Tile} tile - the tile the pawn is on
+     * @param {Piece} newPiece - the piece the pawn will be promoted to
+     */
+    promote(tile,piece){
+        tile.plPiece(piece);
+    }
 
     /**
     * Filters the list of possible moves, removing any move that will put the king in check

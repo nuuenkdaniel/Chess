@@ -14,6 +14,9 @@ class Piece{
     getColor(){
         return this.color;
     }
+    giveColor(color){
+        this.color = color;
+    }
     getMoveInfo(mode){
         throw new error("Method 'getMoveInfo()' must be implemented");
     }

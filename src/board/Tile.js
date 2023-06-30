@@ -39,12 +39,14 @@ class Tile{
     giveX(x){
         this.x = x;
     }
+    //the x pixel of the top left of the tile
     getX(){
         return this.x;
     }
     giveY(y){
         this.y = y;
     }
+    //the y pixel of the top left of the tile
     getY(){
         return this.y;
     }
