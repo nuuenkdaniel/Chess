@@ -11,6 +11,7 @@ let possibleTiles = [];
 let pieceSelected = [];
 let turn = "white";
 let chessPieces;
+let pauseChessBoard = false;
 
 //Draws the tiles for the chess board
 function drawBoard(){
@@ -85,6 +86,10 @@ function drawNumCoords(){
 //Event handler for when mouse pressed
 function mousePressedHandler(){
     if(mouseIsPressed === true){
+        if(pauseChessBoard){
+            promotionBoardTilePressed(tilePressed());
+            return;
+        }
         tileSelected = tilePressed();
         if(tileSelected.length>0){
             if(!possibleMovePressed(tileSelected)){
@@ -100,6 +105,14 @@ function mousePressedHandler(){
  * @return {Array}- The tile that was pressed or an empty array if no tile pressed
  */
 function tilePressed(){
+    if(pauseChessBoard){
+        for(let e = 0; e < promotionBoard.length; e++){
+            if(promotionBoard[e].isClicked()){
+                return e;
+            }
+        }
+        return null;
+    }
     for(let i = 0; i < boardLength; i++){
         for(let j = 0; j < boardWidth; j++){
             if(board.getTile(i,j).isClicked()){
@@ -125,19 +138,24 @@ function possibleMovePressed(tile){
         for(let tiles of possibleTiles){
             if((tiles[0] === tile[0]) && (tiles[1] === tile[1])){
                 board.movePiece(pieceSelected[0],pieceSelected[1],tile[0],tile[1]);
-                gameOver();
-                board.whiteKing.giveCheckedTiles(board.checkedTiles("white"));
-                board.blackKing.giveCheckedTiles(board.checkedTiles("black"));
-                possibleMovesPressedSection(tile);
-                tileSelected = [];
-                possibleTiles = [];
-                pieceSelected = [];
+                pawnPromotionHandler(tile);
+                if(!pauseChessBoard) updateBoard(tile);
                 return true;
             }
         }
     }
     possibleTiles = [];
     return false;
+}
+
+function updateBoard(tile){
+    gameOver();
+    board.whiteKing.giveCheckedTiles(board.checkedTiles("white"));
+    board.blackKing.giveCheckedTiles(board.checkedTiles("black"));
+    possibleMovesPressedSection(tile);
+    tileSelected = [];
+    possibleTiles = [];
+    pieceSelected = [];
 }
 
 /**
@@ -153,6 +171,11 @@ function possibleMovesPressedSection(tile){
     else if(castlePressed(king,tile) === "right") board.castle(king,"right");
     if(turn === "black" && board.blackKing.isChecked()) console.log("black is checked");
     else if(turn === "white" && board.whiteKing.isChecked()) console.log("white is checked");
+}
+
+function pawnPromotionHandler(tile) {
+    if(turn === "white" && board.getTile(tile[0],tile[1]).getPiece().getType() === "pawn" && tile[1] === 0) promotionMode(true);
+    else if(turn === "black" && board.getTile(tile[0],tile[1]).getPiece().getType() === "pawn" && tile[1] === 7) promotionMode(true);
 }
 
 /**
@@ -210,6 +233,40 @@ function createPromotionBoard(){
     for(let i = 0; i < 4; i++) promotionBoard[i] = new Tile(i,0,"#A52A2A",tileSize,pieces[i]);
 }
 
+function promotionMode(mode){
+    if(mode){
+        drawPromotionBoard(turn);
+        pauseChessBoard = true;
+    }
+}
+
+/**
+ * If a piece is selected changes the pawn will be promoted to that piece
+ * @param {Integer} tile - the index of the tile selected
+ */
+function promotionBoardTilePressed(tile){
+    if(tile !== null){
+        switch(promotionBoard[tile].getPiece().getType()){
+            case "bishop":
+                board.getTile(tileSelected[0],tileSelected[1]).plPiece(new Bishop(turn,tileSelected[0],tileSelected[1],board));
+                break;
+            case "knight":
+                board.getTile(tileSelected[0],tileSelected[1]).plPiece(new Knight(turn,tileSelected[0],tileSelected[1],board));
+                break;
+            case "rooke":
+                board.getTile(tileSelected[0],tileSelected[1]).plPiece(new Rooke(turn,tileSelected[0],tileSelected[1],board));
+                break;
+            case "queen":
+                board.getTile(tileSelected[0],tileSelected[1]).plPiece(new Queen(turn,tileSelected[0],tileSelected[1],board));
+                break;
+        }
+        updateBoard(tileSelected);
+        clear();
+        background(0);
+        pauseChessBoard = false;
+    }
+}
+
 /**
  * Draws the board displaying the pieces the pawn can promote to 
  * @param {*} color - the color of the promoting pawn
@@ -221,7 +278,7 @@ function drawPromotionBoard(color){
         promotionBoard[i].giveX(tileX);
         promotionBoard[i].giveY(tileY);
         promotionBoard[i].getPiece().giveColor(color);
-        fill("#A52A2A");
+        fill(promotionBoard[i].getColor());
         rect(tileX,tileY,tileSize);
         drawPiece(promotionBoard[i]);
     }

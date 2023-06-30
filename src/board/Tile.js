@@ -25,6 +25,9 @@ class Tile{
     getColor(){
         return this.color;
     }
+    giveColor(color){
+        this.color = color
+    }
     getPiece(){
         return this.piece;
     }
