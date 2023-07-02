@@ -152,7 +152,7 @@ function updateBoard(tile){
     gameOver();
     board.whiteKing.giveCheckedTiles(board.checkedTiles("white"));
     board.blackKing.giveCheckedTiles(board.checkedTiles("black"));
-    possibleMovesPressedSection(tile);
+    checkCastle(tile);
     tileSelected = [];
     possibleTiles = [];
     pieceSelected = [];
@@ -164,9 +164,10 @@ function updateBoard(tile){
  * Ends the turn and changes turns to the opposite color
  * @param {Tile} tile - A tile on the chessboard
  */
-function possibleMovesPressedSection(tile){
+function checkCastle(tile){
     let king = (turn === "white")? board.whiteKing : board.blackKing;
     turn = (turn === "white")? "black" : "white";
+    board.resetPawn(turn);
     if(board.getTile(tile[0],tile[1]).getPiece().getType() === "king" && castlePressed(king,tile) === "left") board.castle(king,"left");
     else if(castlePressed(king,tile) === "right") board.castle(king,"right");
     if(turn === "black" && board.blackKing.isChecked()) console.log("black is checked");

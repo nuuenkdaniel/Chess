@@ -2,6 +2,7 @@ class Pawn extends Piece{
     constructor(color, tileX, tileY, board, firstMove = true){
         super(color, tileX, tileY, board);
         this.firstMove = firstMove;
+        this.justMoved2 = false;
     }
 
     getMoveInfo(mode){
@@ -67,6 +68,7 @@ class Pawn extends Piece{
             }
             possibleMoves.push([this.tileX,this.tileY+2]);
         }
+        possibleMoves = this.enPassantBlack(possibleMoves);
         return possibleMoves;
     }
 
@@ -97,7 +99,52 @@ class Pawn extends Piece{
             }
             possibleMoves.push([this.tileX,this.tileY-2]);
         }
+        possibleMoves = this.enPassantWhite(possibleMoves);
         return possibleMoves
+    }
+
+    enPassantWhite(possibleMoves) {
+        if(this.tileY === 3) {
+            if(this.tileX > 0) {
+                let tile = this.board.getTile(this.tileX-1,this.tileY);
+                if(tile.isTileOccupied()) {
+                    if(tile.getPiece().getType() === "pawn" && tile.getPiece().getColor() === "black") {
+                        if(tile.getPiece().justMoved2 === true) possibleMoves.push([this.tileX-1,this.tileY-1]);
+                    }
+                }
+            }
+            if(this.tileX < this.board.boardLength-1) {
+                let tile = this.board.getTile(this.tileX+1,this.tileY);
+                if(tile.isTileOccupied()) {
+                    if(tile.getPiece().getType() === "pawn" && tile.getPiece().getColor() === "black") {
+                        if(tile.getPiece().justMoved2 === true) possibleMoves.push([this.tileX+1,this.tileY-1]);
+                    }
+                }
+            }
+        }
+        return possibleMoves;
+    }
+
+    enPassantBlack(possibleMoves){
+        if(this.tileY === 4){
+            if(this.tileX > 0){
+                let tile = this.board.getTile(this.tileX-1,this.tileY);
+                if(tile.isTileOccupied()){
+                    if(tile.getPiece().getType() === "pawn" && tile.getPiece().getColor() === "black"){
+                        if(tile.getPiece().justMoved2 === true) possibleMoves.push([this.tileX-1,this.tileY+1]);
+                    }
+                }
+            }
+            if(this.tileX < this.board.boardLength-1){
+                let tile = this.board.getTile(this.tileX+1,this.tileY);
+                if(tile.isTileOccupied()){
+                    if(tile.getPiece().getType() === "pawn" && tile.getPiece().getColor() === "black"){
+                        if(tile.getPiece().justMoved2 === true) possibleMoves.push([this.tileX+1,this.tileY+1]);
+                    }
+                }
+            }
+        }
+        return possibleMoves;
     }
 
     isFirstMove(){

@@ -3,4 +3,4 @@ If check king must get out of check DONE!
 Make it so piece cannot move if it will put king in check DONE!
 Make castle possible DONE!
 Implement en passant
-Give pawn option to promote into another piece
+Give pawn option to promote into another piece DONE!

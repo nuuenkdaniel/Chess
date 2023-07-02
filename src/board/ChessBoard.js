@@ -74,6 +74,10 @@ class ChessBoard{
             let pieces = ["pawn","king","rooke"];
             if(this.getTile(x1,y1).getPiece().getType() === pieces[i]){
                 this.getTile(x1,y1).getPiece().setFirstMove(false);
+                if(i === 0) {
+                    if(Math.abs(y2-y1) === 2) this.getTile(x1,y1).getPiece().justMoved2 = true;
+                    this.enPassant(x1,y1,x2,y2);
+                }
                 break;
             }
         }
@@ -81,6 +85,17 @@ class ChessBoard{
         this.getTile(x2,y2).getPiece().giveX(x2);
         this.getTile(x2,y2).getPiece().giveY(y2);
         this.getTile(x1,y1).rmPiece();
+    }
+
+    resetPawn(color){
+        for(let i = 0; i < this.boardLength; i++) {
+            for(let j = 0; j < this.boardWidth; j++) {
+                if(this.getTile(i,j).isTileOccupied()) {
+                    let piece = this.getTile(i,j).getPiece();
+                    if(piece.getColor() === color && piece.getType() === "pawn") piece.justMoved2 = false;
+                }
+            }
+        }
     }
 
     castle(king,direction){
@@ -99,6 +114,15 @@ class ChessBoard{
      */
     promote(tile,piece){
         tile.plPiece(piece);
+    }
+
+    enPassant(x1,y1,x2,y2){
+        if(Math.abs(x1-x2) === 1 && this.getTile(x2,y1).isTileOccupied()) {
+            console.log("got here");
+            if(this.getTile(x2,y1).getPiece().getType() === "pawn") {
+                if(this.getTile(x2,y1).getPiece().justMoved2 === true) this.getTile(x2,y1).rmPiece();
+            }
+        }
     }
 
     /**
